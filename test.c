@@ -33,23 +33,30 @@ void deleteTree(struct node* node)
 unsigned int hash(char *str) {
   unsigned int hash_val = 0;
   for (int i = 0; str[i] != '\0'; i++) {
-    hash_val = hash_val * 31 + (unsigned int) str[i];
+    hash_val = hash_val + (unsigned int) str[i];
   }
   return hash_val % hashSize;
 }
 
 void import_data(){
     FILE *fp = fopen(PATH, "r");
+    if(fp==NULL){
+        printf("File Error\n");
+        exit(1);
+    }
     node temp;
+    node *parent, *curr;
     while(fscanf(fp, "%[^;];%[^;];%[^;];%c;%d;%f;%d;%d\n",temp.name, temp.nim, temp.major, &temp.gender, &temp.age, &temp.gpa, &temp.semester,&temp.hash_result)!=EOF){
-        struct node *newnode = malloc(sizeof(node));
+        printf("%s,%s,%s,%c,%d,%.2f,%d,%d\n",temp.name, temp.nim, temp.major, temp.gender, temp.age, temp.gpa, temp.semester,temp.hash_result);
+        struct node *newnode = (struct node*) malloc(sizeof(node));
         strcpy(newnode->name, temp.name); strcpy(newnode->nim, temp.nim); strcpy(newnode->major, temp.major);
         newnode->gender = temp.gender; newnode->age = temp.age; newnode->gpa = temp.gpa; newnode->semester = temp.semester; newnode->hash_result = temp.hash_result;
+        newnode->left = NULL; newnode->right = NULL;
         if(root==NULL){
         root = newnode;
         continue;
         }else{
-            node *parent, *curr = root;
+            parent = root;curr = root;
             while(true){
                 parent = curr;
                 if(curr->hash_result>newnode->hash_result){
@@ -848,6 +855,7 @@ int main(){
         switch(ch){
             case 1:
                 insert();
+                import_data();
                 break;
             case 2:
                 print();
