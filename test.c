@@ -345,7 +345,268 @@ void delete_node(){
 }
 
 void modify_data(){
-    
+    FILE *fp = fopen(PATH,"r");
+    FILE *temp = fopen("temp.txt", "w");
+    struct node *parent, *curr = root;
+    bool modify_status = false;
+    int ch = 1;
+    while(true){
+        system("cls");
+        switch(ch){
+            case 1:
+                printf("What Detail you want to use?\n");
+                printf("> Full Name\n");
+                printf("NIM\n");
+                break;
+            case 2:
+                printf("What Detail you want to use?\n");
+                printf("Full Name\n");
+                printf("> NIM\n");
+                break;
+        }
+        int inp = getch();
+        if(inp==72 || inp ==75 ){
+            if(ch>1) ch--;
+            else continue;
+        }else if(inp == 80 || inp == 77){
+            if(ch<2) ch++;
+            else continue;
+        }else if(inp==13){
+            break;
+        }
+    }
+    if(ch==1){
+        char inp_nim[30];
+        while(true){ //NIM input
+            printf("Input NIM mahasiswa\n>>"); scanf("%[^\n]", inp_nim);getchar();
+            bool nim_status = true;
+            for(int i=0; i<strlen(inp_nim); i++){
+                if(!isdigit(inp_nim[i])){
+                    nim_status = false;
+                    break;
+                }
+            }
+            if(nim_status){
+                break;
+            }else{
+                printf("NIM Input Invalid\n");
+            }
+        }
+        struct node temp_node;
+        while(fscanf(fp, "%[^;];%[^;];%[^;];%c;%d;%f;%d;%d\n",temp_node.name, temp_node.nim, temp_node.major, &temp_node.gender, &temp_node.age, &temp_node.gpa, &temp_node.semester,&temp_node.hash_result)!=EOF){
+            if(strcmp(temp_node.nim, inp_nim)==0){
+                deleteTree(root);
+                root = NULL;
+                modify_status = true;
+                while(true){ //gender input
+                    char tempinp;
+                    printf("Input Jenis Kelamin (Input 0 if there's no change)\n>>"); scanf("%c",&tempinp);getchar();
+                    if(tolower(tempinp)=='m' ||tolower(tempinp)=='f' ||tempinp=='0'){
+                        if(tempinp=='0'){
+                            break;
+                        }else{
+                            temp_node.gender = tempinp;
+                        }
+                        break;
+                    }else{
+                        printf("Gender Input Invalid\n");
+                    }
+                }
+                
+                while(true){ //age input
+                    int tempinp;
+                    printf("Input umur mahasiswa\n>>"); scanf("%d", &tempinp); getchar();
+                    if(tempinp>=7 || tempinp==0){
+                        if(tempinp==0){
+                            break;
+                        }else{
+                            temp_node.age = tempinp;
+                            break;
+                        }  
+                    }else{
+                        printf("Age Input Invalid\n");
+                    }
+                }
+
+                while(true){ //Major Input
+                    char tempinp[30];
+                    printf("Input jurusan\n>>"); scanf("%[^\n]", tempinp);getchar();
+                    bool major_status = true;
+                    for(int i=0; i<strlen(tempinp); i++){
+                        if(!isalpha(tempinp[i]) && tempinp[i]!= ' ' &&tempinp[0]!=0){
+                            major_status = false;
+                            break;
+                        }
+                    }
+                    if(major_status){
+                        if(strcmp("0",tempinp)==0){
+                            break;
+                        }else{
+                            strcpy(temp_node.major,tempinp);
+                            break;
+                        }
+                    }else{
+                        printf("Major Invalid\n");
+                    }
+                }
+
+                while(true){ //GPA Input
+                float tempinp;
+                    printf("Input GPA\n>>"); scanf("%f", &tempinp);getchar();
+                    if(tempinp<0){
+                        printf("GPA Input Invalid\n");
+                    }else{
+                        if(tempinp==0){
+                            break;
+                        }else{
+                            temp_node.gpa=tempinp;
+                            break;
+                        }
+                    }
+                }
+                
+                while(true){ //Semester Input
+                int tempinp;
+                    printf("Input semester\n>>"); scanf("%d", &tempinp);getchar();
+                    if(tempinp>10 || tempinp<0){
+                        printf("Semester Input Invalid\n");
+                    }else{
+                        if(tempinp==0){
+                            break;
+                        }else{
+                            temp_node.semester=tempinp;
+                            break;
+                        }
+                    }
+                }
+                fprintf(temp, "%s;%s;%s;%c;%d;%.2f;%d;%d\n", temp_node.name, temp_node.nim, temp_node.major, temp_node.gender, temp_node.age, temp_node.gpa, temp_node.semester,temp_node.hash_result);
+            }else{
+                fprintf(temp, "%s;%s;%s;%c;%d;%.2f;%d;%d\n", temp_node.name, temp_node.nim, temp_node.major, temp_node.gender, temp_node.age, temp_node.gpa, temp_node.semester,temp_node.hash_result);
+            }
+        }
+        fclose(temp); fclose(fp);
+        remove("data.txt");
+        rename("temp.txt", "data.txt");
+        import_data();
+        return;
+    }else if(ch==2){
+        char inp_name[30];
+        while(true){ //name input
+            bool name_status = true;
+            printf("Input nama mahasiswa\n>>");scanf("%[^\n]", inp_name);getchar();
+            for(int i=0; i<strlen(inp_name); i++){
+                if(!isalpha(inp_name[i]) && inp_name[i]!= ' '){
+                    name_status = false;
+                    break;
+                }
+            }
+            if(name_status){
+                break;
+            }else{
+                printf("Name Invalid\n");
+            }
+        }
+        struct node temp_node;
+        while(fscanf(fp, "%[^;];%[^;];%[^;];%c;%d;%f;%d;%d\n",temp_node.name, temp_node.nim, temp_node.major, &temp_node.gender, &temp_node.age, &temp_node.gpa, &temp_node.semester,&temp_node.hash_result)!=EOF){
+            if(strcmp(temp_node.name, inp_name)==0){
+                deleteTree(root);
+                root = NULL;
+                modify_status = true;
+                while(true){ //gender input
+                    char tempinp;
+                    printf("Input Jenis Kelamin (Input 0 if there's no change)\n>>"); scanf("%c",&tempinp);getchar();
+                    if(tolower(tempinp)=='m' ||tolower(tempinp)=='f' ||tempinp=='0'){
+                        if(tempinp=='0'){
+                            break;
+                        }else{
+                            temp_node.gender = tempinp;
+                        }
+                        break;
+                    }else{
+                        printf("Gender Input Invalid\n");
+                    }
+                }
+                
+                while(true){ //age input
+                    int tempinp;
+                    printf("Input umur mahasiswa\n>>"); scanf("%d", &tempinp); getchar();
+                    if(tempinp>=7 || tempinp==0){
+                        if(tempinp==0){
+                            break;
+                        }else{
+                            temp_node.age = tempinp;
+                            break;
+                        }  
+                    }else{
+                        printf("Age Input Invalid\n");
+                    }
+                }
+
+                while(true){ //Major Input
+                    char tempinp[30];
+                    printf("Input jurusan\n>>"); scanf("%[^\n]", tempinp);getchar();
+                    bool major_status = true;
+                    for(int i=0; i<strlen(tempinp); i++){
+                        if(!isalpha(tempinp[i]) && tempinp[i]!= ' ' &&tempinp[0]!=0){
+                            major_status = false;
+                            break;
+                        }
+                    }
+                    if(major_status){
+                        if(strcmp("0",tempinp)==0){
+                            break;
+                        }else{
+                            strcpy(temp_node.major,tempinp);
+                            break;
+                        }
+                    }else{
+                        printf("Major Invalid\n");
+                    }
+                }
+
+                while(true){ //GPA Input
+                float tempinp;
+                    printf("Input GPA\n>>"); scanf("%f", &tempinp);getchar();
+                    if(tempinp<0){
+                        printf("GPA Input Invalid\n");
+                    }else{
+                        if(tempinp==0){
+                            break;
+                        }else{
+                            temp_node.gpa=tempinp;
+                            break;
+                        }
+                    }
+                }
+                
+                while(true){ //Semester Input
+                int tempinp;
+                    printf("Input semester\n>>"); scanf("%d", &tempinp);getchar();
+                    if(tempinp>10 || tempinp<0){
+                        printf("Semester Input Invalid\n");
+                    }else{
+                        if(tempinp==0){
+                            break;
+                        }else{
+                            temp_node.semester=tempinp;
+                            break;
+                        }
+                    }
+                }
+                fprintf(temp, "%s;%s;%s;%c;%d;%.2f;%d;%d\n", temp_node.name, temp_node.nim, temp_node.major, temp_node.gender, temp_node.age, temp_node.gpa, temp_node.semester,temp_node.hash_result);
+            }else{
+                fprintf(temp, "%s;%s;%s;%c;%d;%.2f;%d;%d\n", temp_node.name, temp_node.nim, temp_node.major, temp_node.gender, temp_node.age, temp_node.gpa, temp_node.semester,temp_node.hash_result);
+            }
+        }
+        fclose(temp); fclose(fp);
+        remove("data.txt");
+        rename("temp.txt", "data.txt");
+        deleteTree(root);
+        root = NULL;
+        import_data();
+        return;
+    }
+    return;
 }
 
 int main_menu(){
