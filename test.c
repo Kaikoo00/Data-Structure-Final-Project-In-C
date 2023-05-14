@@ -47,7 +47,6 @@ void import_data(){
     node temp;
     node *parent, *curr;
     while(fscanf(fp, "%[^;];%[^;];%[^;];%c;%d;%f;%d;%d\n",temp.name, temp.nim, temp.major, &temp.gender, &temp.age, &temp.gpa, &temp.semester,&temp.hash_result)!=EOF){
-        printf("%s,%s,%s,%c,%d,%.2f,%d,%d\n",temp.name, temp.nim, temp.major, temp.gender, temp.age, temp.gpa, temp.semester,temp.hash_result);
         struct node *newnode = (struct node*) malloc(sizeof(node));
         strcpy(newnode->name, temp.name); strcpy(newnode->nim, temp.nim); strcpy(newnode->major, temp.major);
         newnode->gender = temp.gender; newnode->age = temp.age; newnode->gpa = temp.gpa; newnode->semester = temp.semester; newnode->hash_result = temp.hash_result;
@@ -90,7 +89,7 @@ node* create_newnode(){
     node *newnode = malloc(sizeof(node));
     while(true){ //name input
         bool name_status = true;
-        printf("Input nama mahasiswa\n>>");scanf("%[^\n]", newnode->name);getchar();
+        printf("Name Input\n>>");scanf("%[^\n]", newnode->name);getchar();
         for(int i=0; i<strlen(newnode->name); i++){
             if(!isalpha(newnode->name[i]) && newnode->name[i]!= ' '){
                 name_status = false;
@@ -105,7 +104,7 @@ node* create_newnode(){
     }
     
     while(true){ //gender input
-        printf("Input Jenis Kelamin\n>>"); scanf("%c",&newnode->gender);getchar();
+        printf("Gender Input(M/F)\n>>"); scanf("%c",&newnode->gender);getchar();
         if(tolower(newnode->gender)=='m' ||tolower(newnode->gender)=='f'){
             break;
         }else{
@@ -114,7 +113,7 @@ node* create_newnode(){
     }
     
     while(true){ //age input
-        printf("Input umur mahasiswa\n>>"); scanf("%d", &newnode->age); getchar();
+        printf("Age Input\n>>"); scanf("%d", &newnode->age); getchar();
         if(newnode->age>=7){
             break;
         }else{
@@ -123,7 +122,7 @@ node* create_newnode(){
     }
     
     while(true){ //NIM input
-        printf("Input NIM mahasiswa\n>>"); scanf("%[^\n]", newnode->nim);getchar();
+        printf("NIM Input\n>>"); scanf("%[^\n]", newnode->nim);getchar();
         bool nim_status = true;
         for(int i=0; i<strlen(newnode->nim); i++){
             if(!isdigit(newnode->nim[i])){
@@ -139,7 +138,7 @@ node* create_newnode(){
     }
 
     while(true){ //Major Input
-        printf("Input jurusan\n>>"); scanf("%[^\n]", newnode->major);getchar();
+        printf("Major Input\n>>"); scanf("%[^\n]", newnode->major);getchar();
         bool major_status = true;
         for(int i=0; i<strlen(newnode->major); i++){
             if(!isalpha(newnode->major[i]) && newnode->major[i]!= ' '){
@@ -155,8 +154,8 @@ node* create_newnode(){
     }
 
     while(true){ //GPA Input
-        printf("Input GPA\n>>"); scanf("%f", &newnode->gpa);getchar();
-        if(newnode->gpa<0){
+        printf(" GPA Input\n>>"); scanf("%f", &newnode->gpa);getchar();
+        if(newnode->gpa<0 && newnode->gpa>4){
             printf("GPA Input Invalid\n");
         }else{
             break;
@@ -164,7 +163,7 @@ node* create_newnode(){
     }
     
     while(true){ //Semester Input
-        printf("Input semester\n>>"); scanf("%d", &newnode->semester);getchar();
+        printf("Semester Input\n>>"); scanf("%d", &newnode->semester);getchar();
         if(newnode->semester>10 || newnode->semester<=0){
             printf("Semester Input Invalid\n");
         }else{
@@ -215,7 +214,7 @@ void insert(){
 
 void print_header(){
     printf("================================================================================================================\n");
-    printf("|Name                           |NIM              |Major                     |Gender  |Age   |GPA   |Semester  |\n");
+    printf("| Name                          | NIM             | Major                    | Gender | Age  | GPA  | Semester |\n");
     printf("================================================================================================================\n");
     return;
 }
@@ -256,6 +255,7 @@ void delete_node(){
     int ch = 1;
     while(true){
         system("cls");
+        print();
         switch(ch){
             case 1:
                 printf("What Detail you want to use?\n");
@@ -280,7 +280,7 @@ void delete_node(){
     if(ch==1){
         char inp_nim[30];
         while(true){ //NIM input
-            printf("Input NIM mahasiswa\n>>"); scanf("%[^\n]", inp_nim);getchar();
+            printf("NIM Input\n>>"); scanf("%[^\n]", inp_nim);getchar();
             bool nim_status = true;
             for(int i=0; i<strlen(inp_nim); i++){
                 if(!isdigit(inp_nim[i])){
@@ -313,7 +313,7 @@ void delete_node(){
         char inp_name[30];
         while(true){ //name input
             bool name_status = true;
-            printf("Input nama mahasiswa\n>>");scanf("%[^\n]", inp_name);getchar();
+            printf("Name Input\n>>");scanf("%[^\n]", inp_name);getchar();
             for(int i=0; i<strlen(inp_name); i++){
                 if(!isalpha(inp_name[i]) && inp_name[i]!= ' '){
                     name_status = false;
@@ -347,12 +347,14 @@ void delete_node(){
     if(!delete_status){
         printf("Data Not Found (!)\n");
         system("pause");
+    }else{
+        printf("Data Deleted Successfully\n");
+        system("pause");
     }
     return;
 }
 
 void modify_data(){
-    print();
     FILE *fp = fopen(PATH,"r");
     FILE *temp = fopen("temp.txt", "w");
     struct node *parent, *curr = root;
@@ -360,6 +362,7 @@ void modify_data(){
     int ch = 1;
     while(true){
         system("cls");
+        print();
         switch(ch){
             case 1:
                 printf("What Detail you want to use?\n");
@@ -408,7 +411,7 @@ void modify_data(){
                 modify_status = true;
                 while(true){ //gender input
                     char tempinp;
-                    printf("Input Jenis Kelamin (Input 0 if there's no change)\n>>"); scanf("%c",&tempinp);getchar();
+                    printf("Gender Input (Input 0 if there's no change)\n>>"); scanf("%c",&tempinp);getchar();
                     if(tolower(tempinp)=='m' ||tolower(tempinp)=='f' ||tempinp=='0'){
                         if(tempinp=='0'){
                             break;
@@ -423,7 +426,7 @@ void modify_data(){
                 
                 while(true){ //age input
                     int tempinp;
-                    printf("Input umur mahasiswa\n>>"); scanf("%d", &tempinp); getchar();
+                    printf("AgeInput (Input 0 if there's no change)\n>>"); scanf("%d", &tempinp); getchar();
                     if(tempinp>=7 || tempinp==0){
                         if(tempinp==0){
                             break;
@@ -438,16 +441,16 @@ void modify_data(){
 
                 while(true){ //Major Input
                     char tempinp[30];
-                    printf("Input jurusan\n>>"); scanf("%[^\n]", tempinp);getchar();
+                    printf("Major Input (Input 0 if there's no change)\n>>"); scanf("%[^\n]", tempinp);getchar();
                     bool major_status = true;
                     for(int i=0; i<strlen(tempinp); i++){
-                        if(!isalpha(tempinp[i]) && tempinp[i]!= ' ' &&tempinp[0]!=0){
+                        if(!isalpha(tempinp[i]) && tempinp[i]!= ' ' &&tempinp[0]!='0'){
                             major_status = false;
                             break;
                         }
                     }
                     if(major_status){
-                        if(strcmp("0",tempinp)==0){
+                        if(tempinp[0] == '0' && strlen(tempinp)==1){
                             break;
                         }else{
                             strcpy(temp_node.major,tempinp);
@@ -460,7 +463,7 @@ void modify_data(){
 
                 while(true){ //GPA Input
                 float tempinp;
-                    printf("Input GPA\n>>"); scanf("%f", &tempinp);getchar();
+                    printf("Input GPA (Input 0 if there's no change)\n>>"); scanf("%f", &tempinp);getchar();
                     if(tempinp<0){
                         printf("GPA Input Invalid\n");
                     }else{
@@ -475,7 +478,7 @@ void modify_data(){
                 
                 while(true){ //Semester Input
                 int tempinp;
-                    printf("Input semester\n>>"); scanf("%d", &tempinp);getchar();
+                    printf("Input semester (Input 0 if there's no change)\n>>"); scanf("%d", &tempinp);getchar();
                     if(tempinp>10 || tempinp<0){
                         printf("Semester Input Invalid\n");
                     }else{
@@ -521,7 +524,7 @@ void modify_data(){
                 modify_status = true;
                 while(true){ //gender input
                     char tempinp;
-                    printf("Input Jenis Kelamin (Input 0 if there's no change)\n>>"); scanf("%c",&tempinp);getchar();
+                    printf("Gender Input (Input 0 if there's no change)\n>>"); scanf("%c",&tempinp);getchar();
                     if(tolower(tempinp)=='m' ||tolower(tempinp)=='f' ||tempinp=='0'){
                         if(tempinp=='0'){
                             break;
@@ -536,7 +539,7 @@ void modify_data(){
                 
                 while(true){ //age input
                     int tempinp;
-                    printf("Input umur mahasiswa\n>>"); scanf("%d", &tempinp); getchar();
+                    printf("AgeInput (Input 0 if there's no change)\n>>"); scanf("%d", &tempinp); getchar();
                     if(tempinp>=7 || tempinp==0){
                         if(tempinp==0){
                             break;
@@ -551,16 +554,16 @@ void modify_data(){
 
                 while(true){ //Major Input
                     char tempinp[30];
-                    printf("Input jurusan\n>>"); scanf("%[^\n]", tempinp);getchar();
+                    printf("Major Input (Input 0 if there's no change)\n>>"); scanf("%[^\n]", tempinp);getchar();
                     bool major_status = true;
                     for(int i=0; i<strlen(tempinp); i++){
-                        if(!isalpha(tempinp[i]) && tempinp[i]!= ' ' &&tempinp[0]!=0){
+                        if(!isalpha(tempinp[i]) && tempinp[i]!= ' ' &&tempinp[0]!='0'){
                             major_status = false;
                             break;
                         }
                     }
                     if(major_status){
-                        if(strcmp("0",tempinp)==0){
+                        if(tempinp[0] == '0' && strlen(tempinp)==1){
                             break;
                         }else{
                             strcpy(temp_node.major,tempinp);
@@ -573,7 +576,7 @@ void modify_data(){
 
                 while(true){ //GPA Input
                 float tempinp;
-                    printf("Input GPA\n>>"); scanf("%f", &tempinp);getchar();
+                    printf("Input GPA (Input 0 if there's no change)\n>>"); scanf("%f", &tempinp);getchar();
                     if(tempinp<0){
                         printf("GPA Input Invalid\n");
                     }else{
@@ -588,7 +591,7 @@ void modify_data(){
                 
                 while(true){ //Semester Input
                 int tempinp;
-                    printf("Input semester\n>>"); scanf("%d", &tempinp);getchar();
+                    printf("Input semester (Input 0 if there's no change)\n>>"); scanf("%d", &tempinp);getchar();
                     if(tempinp>10 || tempinp<0){
                         printf("Semester Input Invalid\n");
                     }else{
@@ -614,6 +617,9 @@ void modify_data(){
     }
     if(!modify_status){
         printf("Data Not Found (!)\n");
+        system("pause");
+    }else{
+        printf("Data Successfully Edited\n");
         system("pause");
     }
     return;
@@ -648,6 +654,7 @@ void search(){
     bool found = false;
     while(true){
         system("cls");
+        print();
         switch(ch){
             case 1:
                 printf("What Detail you want to use?\n");
@@ -672,7 +679,7 @@ void search(){
     if(ch==1){
         char inp_nim[30];
         while(true){ //NIM input
-            printf("Input NIM mahasiswa\n>>"); scanf("%[^\n]", inp_nim);getchar();
+            printf("NIM Input\n>>"); scanf("%[^\n]", inp_nim);getchar();
             bool nim_status = true;
             for(int i=0; i<strlen(inp_nim); i++){
                 if(!isdigit(inp_nim[i])){
@@ -691,7 +698,7 @@ void search(){
         char inp_name[30];
          while(true){ //name input
             bool name_status = true;
-            printf("Input nama mahasiswa\n>>");scanf("%[^\n]", inp_name);getchar();
+            printf("Name Input\n>>");scanf("%[^\n]", inp_name);getchar();
             for(int i=0; i<strlen(inp_name); i++){
                 if(!isalpha(inp_name[i]) && inp_name[i]!= ' '){
                     name_status = false;
@@ -740,8 +747,8 @@ void search(){
     if(!found){
         printf("\nData Not Found (!)\n");
         system("pause");
-        return;
     }
+    return;
 }
 
 int main_menu(){
@@ -855,18 +862,15 @@ int main(){
         switch(ch){
             case 1:
                 insert();
-                import_data();
                 break;
             case 2:
                 print();
                 system("pause");
                 break;
             case 3:
-                print();
                 delete_node();
                 break;
             case 4:
-                print();
                 modify_data();
                 break;
             case 5:
