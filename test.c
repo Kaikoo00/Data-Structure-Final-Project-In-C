@@ -25,27 +25,9 @@ node *root;
 void deleteTree(struct node* node)
 {
     if (node == NULL) return;
- 
-    /* first delete both subtrees */
     deleteTree(node->left);
     deleteTree(node->right);
-   
-    /* then delete the node */
-    printf("\n Deleting node: %s", node->name);
     free(node);
-}
-
-void freeTree(node *head) {
-    if (head == NULL) {
-        return;
-    }
-
-    // first free the left and right subtrees
-    freeTree(head->left);
-    freeTree(head->right);
-
-    // then free the root node
-    free(head);
 }
 
 unsigned int hash(char *str) {
@@ -65,6 +47,7 @@ void import_data(){
         newnode->gender = temp.gender; newnode->age = temp.age; newnode->gpa = temp.gpa; newnode->semester = temp.semester; newnode->hash_result = temp.hash_result;
         if(root==NULL){
         root = newnode;
+        continue;
         }else{
             node *parent, *curr = root;
             while(true){
@@ -231,10 +214,6 @@ void print_header(){
 }
 
 void print_tree(struct node *head){
-    if(root==NULL){
-        printf("Import the data from existing file first or input some new data\n");
-        return;
-    }
     if(head==NULL){
         return;
     }
@@ -252,19 +231,44 @@ void print_tree(struct node *head){
     return;
 }
 
+void print(){
+    if(root == NULL){
+         printf("Import the data from existing file first or input some new data\n");
+         return;
+    }
+    print_header();
+    print_tree(root);
+    return;
+}
+
 void delete_node(){
     FILE *fp = fopen(PATH,"r");
     FILE *temp = fopen("temp.txt", "w");
-    int ch;
     struct node *parent, *curr = root;
     bool delete_status = false;
+    int ch = 1;
     while(true){
-        printf("1. Delete by NIM\n");
-        printf("2. Delete by Name\n>>");
-        scanf("%d", &ch);getchar();
-        if(ch > 2 || ch < 1){
-            printf("Invalid\n");
-        }else{
+        system("cls");
+        switch(ch){
+            case 1:
+                printf("What Detail you want to use?\n");
+                printf("> Full Name\n");
+                printf("NIM\n");
+                break;
+            case 2:
+                printf("What Detail you want to use?\n");
+                printf("Full Name\n");
+                printf("> NIM\n");
+                break;
+        }
+        int inp = getch();
+        if(inp==72 || inp ==75 ){
+            if(ch>1) ch--;
+            else continue;
+        }else if(inp == 80 || inp == 77){
+            if(ch<2) ch++;
+            else continue;
+        }else if(inp==13){
             break;
         }
     }
@@ -288,6 +292,8 @@ void delete_node(){
         struct node temp_node;
         while(fscanf(fp, "%[^;];%[^;];%[^;];%c;%d;%f;%d;%d\n",temp_node.name, temp_node.nim, temp_node.major, &temp_node.gender, &temp_node.age, &temp_node.gpa, &temp_node.semester,&temp_node.hash_result)!=EOF){
             if(strcmp(temp_node.nim, inp_nim)==0){
+                deleteTree(root);
+                root = NULL;
                 delete_status = true;
                 continue;
             }else{
@@ -297,8 +303,6 @@ void delete_node(){
         fclose(temp); fclose(fp);
         remove("data.txt");
         rename("temp.txt", "data.txt");
-        deleteTree(root);
-        root = NULL;
         import_data();
         return;
     }else if(ch==2){
@@ -321,6 +325,8 @@ void delete_node(){
         struct node temp_node;
         while(fscanf(fp, "%[^;];%[^;];%[^;];%c;%d;%f;%d;%d\n",temp_node.name, temp_node.nim, temp_node.major, &temp_node.gender, &temp_node.age, &temp_node.gpa, &temp_node.semester,&temp_node.hash_result)!=EOF){
             if(strcmp(temp_node.name, inp_name)==0){
+                deleteTree(root);
+                root = NULL;
                 delete_status = true;
                 continue;
             }else{
@@ -339,7 +345,7 @@ void delete_node(){
 }
 
 void modify_data(){
-
+    
 }
 
 int main_menu(){
@@ -352,62 +358,49 @@ int main_menu(){
             printf("> 1. Input New Data <\n");
             printf("2. Print Data\n");
             printf("3. Delete Node\n");
-            printf("4. Import Data From Existing File\n");
-            printf("5. Modify Existing Data\n");
-            printf("6. Exit\n");
+            printf("4. Modify Existing Data\n");
+            printf("5. Exit\n");
             break;
         case 2:
             system("cls");
             printf("1. Input New Data\n");
             printf("> 2. Print Data <\n");
             printf("3. Delete Node\n");
-            printf("4. Import Data From Existing File\n");
-            printf("5. Modify Existing Data\n");
-            printf("6. Exit\n");
+            printf("4. Modify Existing Data\n");
+            printf("5. Exit\n");
             break;
         case 3:
             system("cls");
             printf("1. Input New Data\n");
             printf("2. Print Data\n");
             printf("> 3. Delete Node <\n");
-            printf("4. Import Data From Existing File\n");
-            printf("5. Modify Existing Data\n");
-            printf("6. Exit\n");
+            printf("4. Modify Existing Data\n");
+            printf("5. Exit\n");
             break;
         case 4:
             system("cls");
             printf("1. Input New Data\n");
             printf("2. Print Data\n");
             printf("3. Delete Node\n");
-            printf("> 4. Import Data From Existing File <\n");
-            printf("5. Modify Existing Data\n");
-            printf("6. Exit\n");
+            printf("> 4. Modify Existing Data\n");
+            printf("5. Exit\n");
             break;
         case 5:
             system("cls");
             printf("1. Input New Data\n");
             printf("2. Print Data\n");
             printf("3. Delete Node\n");
-            printf("4. Import Data From Existing File\n");
-            printf("> 5. Modify Existing Data <\n");
-            printf("6. Exit\n");
+            printf("4. Modify Existing Data <\n");
+            printf("> 5. Exit\n");
             break;
-        case 6:
-            system("cls");
-            printf("1. Input New Data\n");
-            printf("2. Print Data\n");
-            printf("3. Delete Node\n");
-            printf("4. Import Data From Existing File\n");
-            printf("5. Modify Existing Data\n");
-            printf("> 6. Exit <\n");
-            break;
+        
         }
         int inp = getch();
         if(inp==72 || inp ==75 ){
             if(ch>1) ch--;
             else continue;
         }else if(inp == 80 || inp == 77){
-            if(ch<6) ch++;
+            if(ch<5) ch++;
             else continue;
         }else if(inp==13){
             return ch;
@@ -417,6 +410,36 @@ int main_menu(){
 
 int main(){
     printf("\033[30m"); printf("\033[47m"); system("cls"); // set background color to white and text color to black
+    int ch = 1;
+    while(true){
+        system("cls");
+        switch(ch){
+            case 1:
+                printf("Do you want to import the previous data?\n");
+                printf("> Y\n");
+                printf("N\n");
+                break;
+            case 2:
+                printf("Do you want to import the previous data?\n");
+                printf("Y\n");
+                printf("> N\n");
+                break;
+        }
+        int inp = getch();
+        if(inp==72 || inp ==75 ){
+            if(ch>1) ch--;
+            else continue;
+        }else if(inp == 80 || inp == 77){
+            if(ch<2) ch++;
+            else continue;
+        }else if(inp==13){
+            if(ch==1){
+                import_data();
+            }
+            break;
+        }
+    }
+
     while(true){
         int ch = main_menu();
         system("cls");
@@ -425,25 +448,18 @@ int main(){
                 insert();
                 break;
             case 2:
-                if(root == NULL){
-                    printf("Import the data from existing file first or input some new data\n");
-                    system("pause");
-                    break;
-                }
-                print_header();
-                print_tree(root);
+                print();
                 system("pause");
                 break;
             case 3:
+                print();
                 delete_node();
                 break;
             case 4:
-                import_data();
-                break;
-            case 5:
+                print();
                 modify_data();
                 break;
-            case 6:
+            case 5:
                 exit(0);
         }
     }
