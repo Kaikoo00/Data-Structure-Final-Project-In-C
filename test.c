@@ -252,13 +252,11 @@ void delete_node(){
         switch(ch){
             case 1:
                 printf("What Detail you want to use?\n");
-                printf("> Full Name\n");
-                printf("NIM\n");
+                printf("> NIM\n");printf("Full Name\n");
                 break;
             case 2:
                 printf("What Detail you want to use?\n");
-                printf("Full Name\n");
-                printf("> NIM\n");
+                printf("NIM\n");printf("> Full Name\n");
                 break;
         }
         int inp = getch();
@@ -304,7 +302,6 @@ void delete_node(){
         remove("data.txt");
         rename("temp.txt", "data.txt");
         import_data();
-        return;
     }else if(ch==2){
         char inp_name[30];
         while(true){ //name input
@@ -339,12 +336,16 @@ void delete_node(){
         deleteTree(root);
         root = NULL;
         import_data();
-        return;
+    }
+    if(!delete_status){
+        printf("Data Not Found (!)\n");
+        system("pause");
     }
     return;
 }
 
 void modify_data(){
+    print();
     FILE *fp = fopen(PATH,"r");
     FILE *temp = fopen("temp.txt", "w");
     struct node *parent, *curr = root;
@@ -355,13 +356,13 @@ void modify_data(){
         switch(ch){
             case 1:
                 printf("What Detail you want to use?\n");
-                printf("> Full Name\n");
-                printf("NIM\n");
+                printf("> NIM\n");
+                printf("Full Name\n");
                 break;
             case 2:
                 printf("What Detail you want to use?\n");
-                printf("Full Name\n");
-                printf("> NIM\n");
+                printf("NIM\n");
+                printf("> Full Name\n");
                 break;
         }
         int inp = getch();
@@ -488,7 +489,6 @@ void modify_data(){
         remove("data.txt");
         rename("temp.txt", "data.txt");
         import_data();
-        return;
     }else if(ch==2){
         char inp_name[30];
         while(true){ //name input
@@ -604,9 +604,137 @@ void modify_data(){
         deleteTree(root);
         root = NULL;
         import_data();
-        return;
+    }
+    if(!modify_status){
+        printf("Data Not Found (!)\n");
+        system("pause");
     }
     return;
+}
+
+bool NIM_search(node *curr, char *inpNIM){
+    if(curr!=NULL){
+        NIM_search(curr->left, inpNIM);
+        if(!strcmp(inpNIM, curr->nim)){
+            system("cls");
+            printf("================================================================================================================\n");
+            printf("|Name                           |NIM              |Major                     |Gender  |Age   |GPA   |Semester  |\n");
+            printf("================================================================================================================\n");
+            printf("| %30s| %16s| %25s", curr->name, curr->nim, curr->major);
+            if(tolower(curr->gender)=='m'){
+                printf("|    Male|");
+            }else{
+                printf("|  Female|");
+            }
+            printf(" %5d| %5.2f| %9d|\n", curr->age, curr->gpa, curr->semester);
+            printf("----------------------------------------------------------------------------------------------------------------\n");
+            system("pause");
+            return true;
+        }
+        NIM_search(curr->right, inpNIM);
+    }
+    return false;
+}
+
+void search(){
+    int ch=1;
+    bool found = false;
+    while(true){
+        system("cls");
+        switch(ch){
+            case 1:
+                printf("What Detail you want to use?\n");
+                printf("> NIM\n");printf("Full Name\n");
+                break;
+            case 2:
+                printf("What Detail you want to use?\n");
+                printf("NIM\n");printf("> Full Name\n");
+                break;
+        }
+        int inp = getch();
+        if(inp==72 || inp ==75 ){
+            if(ch>1) ch--;
+            else continue;
+        }else if(inp == 80 || inp == 77){
+            if(ch<2) ch++;
+            else continue;
+        }else if(inp==13){
+            break;
+        }
+    }
+    if(ch==1){
+        char inp_nim[30];
+        while(true){ //NIM input
+            printf("Input NIM mahasiswa\n>>"); scanf("%[^\n]", inp_nim);getchar();
+            bool nim_status = true;
+            for(int i=0; i<strlen(inp_nim); i++){
+                if(!isdigit(inp_nim[i])){
+                    nim_status = false;
+                    break;
+                }
+            }
+            if(nim_status){
+                break;
+            }else{
+                printf("NIM Input Invalid\n");
+            }
+        }
+        found = NIM_search(root, inp_nim);
+    }else if(ch==2){
+        char inp_name[30];
+         while(true){ //name input
+            bool name_status = true;
+            printf("Input nama mahasiswa\n>>");scanf("%[^\n]", inp_name);getchar();
+            for(int i=0; i<strlen(inp_name); i++){
+                if(!isalpha(inp_name[i]) && inp_name[i]!= ' '){
+                    name_status = false;
+                    break;
+                }
+            }
+            if(name_status){
+                break;
+            }else{
+                printf("Name Invalid\n");
+            }
+        }
+        int temp_hash = hash(inp_name);
+        struct node *parent, *curr = root;
+        while(true){
+            if(temp_hash == curr->hash_result && !strcmp(curr->name, inp_name)){
+                found = true;
+                system("cls");
+                printf("================================================================================================================\n");
+                printf("|Name                           |NIM              |Major                     |Gender  |Age   |GPA   |Semester  |\n");
+                printf("================================================================================================================\n");
+                printf("| %30s| %16s| %25s", curr->name, curr->nim, curr->major);
+                if(tolower(curr->gender)=='m'){
+                    printf("|    Male|");
+                }else{
+                    printf("|  Female|");
+                }
+                printf(" %5d| %5.2f| %9d|\n", curr->age, curr->gpa, curr->semester);
+                printf("----------------------------------------------------------------------------------------------------------------\n");
+                system("pause");
+                return;
+            }else if(temp_hash == curr->hash_result && strcmp(curr->name, inp_name)){
+                temp_hash+=10;
+                curr = curr->right;
+            }else if(temp_hash >curr->hash_result){
+                curr = curr->right;
+            }else if(temp_hash<curr->hash_result){
+                curr = curr->left;
+            }
+            if(curr == NULL){
+                break;
+            }
+        }
+        
+    }
+    if(!found){
+        printf("\nData Not Found (!)\n");
+        system("pause");
+        return;
+    }
 }
 
 int main_menu(){
@@ -620,7 +748,8 @@ int main_menu(){
             printf("2. Print Data\n");
             printf("3. Delete Node\n");
             printf("4. Modify Existing Data\n");
-            printf("5. Exit\n");
+            printf("5. Search\n");
+            printf("6. Exit\n");
             break;
         case 2:
             system("cls");
@@ -628,7 +757,8 @@ int main_menu(){
             printf("> 2. Print Data <\n");
             printf("3. Delete Node\n");
             printf("4. Modify Existing Data\n");
-            printf("5. Exit\n");
+             printf("5. Search\n");
+            printf("6. Exit\n");
             break;
         case 3:
             system("cls");
@@ -636,32 +766,43 @@ int main_menu(){
             printf("2. Print Data\n");
             printf("> 3. Delete Node <\n");
             printf("4. Modify Existing Data\n");
-            printf("5. Exit\n");
+             printf("5. Search\n");
+            printf("6. Exit\n");
             break;
         case 4:
             system("cls");
             printf("1. Input New Data\n");
             printf("2. Print Data\n");
             printf("3. Delete Node\n");
-            printf("> 4. Modify Existing Data\n");
-            printf("5. Exit\n");
+            printf("> 4. Modify Existing Data <\n");
+             printf("5. Search\n");
+            printf("6. Exit\n");
             break;
         case 5:
             system("cls");
             printf("1. Input New Data\n");
             printf("2. Print Data\n");
             printf("3. Delete Node\n");
-            printf("4. Modify Existing Data <\n");
-            printf("> 5. Exit\n");
+            printf("4. Modify Existing Data\n");
+             printf("> 5. Search <\n");
+            printf("6. Exit\n");
             break;
-        
+        case 6:
+            system("cls");
+            printf("1. Input New Data\n");
+            printf("2. Print Data\n");
+            printf("3. Delete Node\n");
+            printf("4. Modify Existing Data\n");
+             printf("5. Search\n");
+            printf("> 6. Exit <\n");
+            break;
         }
         int inp = getch();
         if(inp==72 || inp ==75 ){
             if(ch>1) ch--;
             else continue;
         }else if(inp == 80 || inp == 77){
-            if(ch<5) ch++;
+            if(ch<6) ch++;
             else continue;
         }else if(inp==13){
             return ch;
@@ -721,8 +862,12 @@ int main(){
                 modify_data();
                 break;
             case 5:
+                search();
+                break;
+            case 6:
                 exit(0);
         }
     }
     return 0;
 }
+
