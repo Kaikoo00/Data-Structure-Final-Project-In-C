@@ -41,7 +41,14 @@ unsigned int hash(char *str) {
 void import_data(){
     FILE *fp = fopen(PATH, "r");
     if(fp==NULL){
-        printf("File Error\n");
+        system("cls");
+        printf("\n\n\n");
+        printf("                =====================================================================\n");
+        printf("                ||                                                                 ||\n");
+        printf("                || Import the data from existing file first or input some new data ||\n");
+        printf("                ||                                                                 ||\n");
+        printf("                =====================================================================\n");
+        printf("\n\n\n");
         system("pause");
         return;
     }
@@ -351,8 +358,14 @@ void print_tree(struct node *head){
 
 void print(){
     if(root == NULL){
-         printf("Import the data from existing file first or input some new data\n");
-         return;
+        printf("\n\n\n");
+        printf("                =====================================================================\n");
+        printf("                ||                                                                 ||\n");
+        printf("                || Import the data from existing file first or input some new data ||\n");
+        printf("                ||                                                                 ||\n");
+        printf("                =====================================================================\n");
+        printf("\n\n\n");
+        return;
     }
     print_header();
     print_tree(root);
@@ -362,6 +375,17 @@ void print(){
 
 void delete_node(){
     FILE *fp = fopen(PATH,"r");
+    if(fp==NULL){
+        printf("\n\n\n");
+        printf("                =====================================================================\n");
+        printf("                ||                                                                 ||\n");
+        printf("                || Import the data from existing file first or input some new data ||\n");
+        printf("                ||                                                                 ||\n");
+        printf("                =====================================================================\n");
+        printf("\n\n\n");
+        system("pause");
+        return;
+    }
     FILE *temp = fopen("temp.txt", "w");
     struct node *parent, *curr = root;
     bool delete_status = false;
@@ -492,6 +516,18 @@ void delete_node(){
 
 void modify_data(){
     FILE *fp = fopen(PATH,"r");
+    if(fp==NULL || root == NULL){
+        printf("\n\n\n");
+        printf("                =====================================================================\n");
+        printf("                ||                                                                 ||\n");
+        printf("                || Import the data from existing file first or input some new data ||\n");
+        printf("                ||                                                                 ||\n");
+        printf("                =====================================================================\n");
+        printf("\n\n\n");
+        system("pause");
+        return;
+    }
+
     FILE *temp = fopen("temp.txt", "w");
     struct node *parent, *curr = root;
     bool modify_status = false;
@@ -783,6 +819,11 @@ void modify_data(){
 }
 
 void search(){
+    if(root==NULL){
+        print();
+        system("pause");
+        return;
+    }
     int ch=1;
     bool found = false;
     while(true){
@@ -978,19 +1019,19 @@ int main_menu(){
 int main(){
     printf("\033[30m"); printf("\033[47m"); system("cls"); // set background color to white and text color to black
     printf("\n\n\n");
-    printf("            =============================================================================\n");
-    printf("            ||                                                                         ||\n");
-    printf("            || This Program Uses Keyboard Only to Navigate Through All The Features !  ||\n");
-    printf("            ||                                                                         ||\n");
-    printf("            =============================================================================\n");
+    printf("                =============================================================================\n");
+    printf("                ||                                                                         ||\n");
+    printf("                || This Program Uses Keyboard Only to Navigate Through All The Features !  ||\n");
+    printf("                ||                                                                         ||\n");
+    printf("                =============================================================================\n");
     printf("\n\n\n");
     system("pause"); system("cls");
     printf("\n\n\n");
-    printf("            =============================================================================\n");
-    printf("            ||                                                                         ||\n");
-    printf("            ||       Use Your Arrow Keys or WASD to Navigate Through the Program !     ||\n");
-    printf("            ||                                                                         ||\n");
-    printf("            =============================================================================\n");
+    printf("                =============================================================================\n");
+    printf("                ||                                                                         ||\n");
+    printf("                ||       Use Your Arrow Keys or WASD to Navigate Through the Program !     ||\n");
+    printf("                ||                                                                         ||\n");
+    printf("                =============================================================================\n");
     printf("\n\n\n");
     system("pause"); system("cls");
     int ch = 1;
@@ -998,22 +1039,26 @@ int main(){
         system("cls");
         switch(ch){
             case 1:
-                printf("==============================================\n");
-                printf("|| Do you want to import the previous data? ||\n");
-                printf("|| If you don't have the file, choose NO    ||\n");
-                printf("==============================================\n");
-                printf("|| > YES <                                  ||\n");
-                printf("||   NO                                     ||\n");
-                printf("==============================================\n");
+                printf("\n\n\n");
+                printf("                ==============================================\n");
+                printf("                || Do you want to import the previous data? ||\n");
+                printf("                || If you don't have the file, choose NO    ||\n");
+                printf("                ==============================================\n");
+                printf("                || > YES <                                  ||\n");
+                printf("                ||   NO                                     ||\n");
+                printf("                ==============================================\n");
+                printf("\n\n\n");
                 break;
             case 2:
-                printf("==============================================\n");
-                printf("|| Do you want to import the previous data? ||\n");
-                printf("|| If you don't have the file, choose NO    ||\n");
-                printf("==============================================\n");
-                printf("||   YES                                    ||\n");
-                printf("|| > NO  <                                  ||\n");
-                printf("==============================================\n");
+                printf("\n\n\n");
+                printf("                ==============================================\n");
+                printf("                || Do you want to import the previous data? ||\n");
+                printf("                || If you don't have the file, choose NO    ||\n");
+                printf("                ==============================================\n");
+                printf("                ||   YES                                    ||\n");
+                printf("                || > NO  <                                  ||\n");
+                printf("                ==============================================\n");
+                printf("\n\n\n");
                 break;
         }
         int inp = getch();
