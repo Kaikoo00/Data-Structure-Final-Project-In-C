@@ -467,7 +467,9 @@ void delete_node(){
         fclose(temp); fclose(fp);
         remove("data.txt");
         rename("temp.txt", "data.txt");
-        import_data();
+        if(delete_status){
+            import_data();
+        }
     }else if(ch==2){
         char inp_name[30];
         while(true){ //name input
@@ -690,7 +692,10 @@ void modify_data(){
         fclose(temp); fclose(fp);
         remove("data.txt");
         rename("temp.txt", "data.txt");
-        import_data();
+        if(modify_status){
+            import_data();
+        }
+        
     }else if(ch==2){
         char inp_name[30];
         while(true){ //name input
