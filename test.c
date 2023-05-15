@@ -42,7 +42,8 @@ void import_data(){
     FILE *fp = fopen(PATH, "r");
     if(fp==NULL){
         printf("File Error\n");
-        exit(1);
+        system("pause");
+        return;
     }
     node temp;
     node *parent, *curr;
