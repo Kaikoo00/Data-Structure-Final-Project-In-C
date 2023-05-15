@@ -230,16 +230,30 @@ node* create_newnode(){
     }
 
     while(true){ //age input
-        printf("Age Input (Input 0 to cancel the Input)\n>>"); scanf("%d", &newnode->age); getchar();
-        if(newnode->age>=7 || newnode->age==0){
+        char temp_age[3];
+        bool age_status = true;
+        printf("Age Input (Input 0 to cancel the Input)\n>>"); scanf("%[^\n]", temp_age); getchar();
+        if(temp_age[0]=='0'){
+            newnode->name[0]='-'; return newnode;
+        }
+
+        if(strlen(temp_age)>3){
+            printf("Age Input Invalid\n");
+            continue;
+        }
+
+        for(int i=0; temp_age[i]!='\0';i++){
+            if(!isdigit(temp_age[i])){
+                age_status = false;
+                break;
+            }
+        }
+        if(age_status){
+            newnode->age = atoi(temp_age);
             break;
         }else{
             printf("Age Input Invalid\n");
         }
-    }
-
-    if(newnode->age == 0){
-        newnode->name[0]='-'; return newnode;
     }
 
     while(true){ //Major Input
@@ -620,15 +634,27 @@ void modify_data(){
                 }
                 
                 while(true){ //age input
-                    int tempinp;
-                    printf("AgeInput (Input 0 if there's no change)\n>>"); scanf("%d", &tempinp); getchar();
-                    if(tempinp>=7 || tempinp==0){
-                        if(tempinp==0){
+                    char temp_age[3];
+                    bool age_status = true;
+                    printf("Age Input (Input 0 to cancel the Input)\n>>"); scanf("%[^\n]", temp_age); getchar();
+                    if(temp_age[0]=='0'){
+                        break;
+                    }
+
+                    if(strlen(temp_age)>3){
+                        printf("Age Input Invalid\n");
+                        continue;
+                    }
+
+                    for(int i=0; temp_age[i]!='\0';i++){
+                        if(!isdigit(temp_age[i])){
+                            age_status = false;
                             break;
-                        }else{
-                            temp_node.age = tempinp;
-                            break;
-                        }  
+                        }
+                    }
+                    if(age_status){
+                        temp_node.age = atoi(temp_age);
+                        break;
                     }else{
                         printf("Age Input Invalid\n");
                     }
@@ -736,15 +762,27 @@ void modify_data(){
                 }
                 
                 while(true){ //age input
-                    int tempinp;
-                    printf("AgeInput (Input 0 if there's no change)\n>>"); scanf("%d", &tempinp); getchar();
-                    if(tempinp>=7 || tempinp==0){
-                        if(tempinp==0){
+                    char temp_age[3];
+                    bool age_status = true;
+                    printf("Age Input (Input 0 to cancel the Input)\n>>"); scanf("%[^\n]", temp_age); getchar();
+                    if(temp_age[0]=='0'){
+                        break;
+                    }
+
+                    if(strlen(temp_age)>3){
+                        printf("Age Input Invalid\n");
+                        continue;
+                    }
+
+                    for(int i=0; temp_age[i]!='\0';i++){
+                        if(!isdigit(temp_age[i])){
+                            age_status = false;
                             break;
-                        }else{
-                            temp_node.age = tempinp;
-                            break;
-                        }  
+                        }
+                    }
+                    if(age_status){
+                        temp_node.age = atoi(temp_age);
+                        break;
                     }else{
                         printf("Age Input Invalid\n");
                     }
