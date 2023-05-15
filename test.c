@@ -659,7 +659,7 @@ void modify_data(){
                 while(true){ //GPA Input
                 float tempinp;
                     printf("Input GPA (Input 0 if there's no change)\n>>"); scanf("%f", &tempinp);getchar();
-                    if(tempinp<0 || tempinp>4){
+                    if(tempinp<0){
                         printf("GPA Input Invalid\n");
                     }else{
                         if(tempinp==0){
@@ -775,7 +775,7 @@ void modify_data(){
                 while(true){ //GPA Input
                 float tempinp;
                     printf("Input GPA (Input 0 if there's no change)\n>>"); scanf("%f", &tempinp);getchar();
-                    if(tempinp<0){
+                    if(tempinp<0 || tempinp>4){
                         printf("GPA Input Invalid\n");
                     }else{
                         if(tempinp==0){
@@ -1180,3 +1180,4 @@ int main(){
     }
     return 0;
 }
+
