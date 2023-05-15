@@ -45,7 +45,7 @@ void import_data(){
         printf("\n\n\n");
         printf("                =====================================================================\n");
         printf("                ||                                                                 ||\n");
-        printf("                || Import the data from existing file first or input some new data ||\n");
+        printf("                || File Don't Exist Please Input Some New Data And Make A New File ||\n");
         printf("                ||                                                                 ||\n");
         printf("                =====================================================================\n");
         printf("\n\n\n");
