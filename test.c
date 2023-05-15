@@ -266,7 +266,7 @@ node* create_newnode(){
         printf(" GPA Input (Input -1 to cancel the Input)\n>>"); scanf("%f", &newnode->gpa);getchar();
         if(newnode->gpa==-1){
             newnode->name[0]='-'; return newnode;
-        }else if(newnode->gpa<0 && newnode->gpa>4){
+        }else if(newnode->gpa<0 || newnode->gpa>4){
             printf("GPA Input Invalid\n");
         }else{
             break;
@@ -659,7 +659,7 @@ void modify_data(){
                 while(true){ //GPA Input
                 float tempinp;
                     printf("Input GPA (Input 0 if there's no change)\n>>"); scanf("%f", &tempinp);getchar();
-                    if(tempinp<0){
+                    if(tempinp<0 || tempinp>4){
                         printf("GPA Input Invalid\n");
                     }else{
                         if(tempinp==0){
