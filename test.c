@@ -190,6 +190,9 @@ node* create_newnode(){
     while(true){ //NIM input
         printf("NIM Input (Input 0 to cancel the Input)\n>>"); scanf("%[^\n]", newnode->nim);getchar();
         bool nim_status = true;
+		if(newnode->nim[0]=='0'&&strlen(newnode->nim)==1){
+        	newnode->name[0]='-'; return newnode;
+    	}
         if(strlen(newnode->nim)<6 || strlen(newnode->nim)>30){
             printf("NIM Input Invalid\n");
             continue;
@@ -206,9 +209,7 @@ node* create_newnode(){
             printf("NIM Input Invalid\n");
         }
     }
-    if(newnode->nim[0]=='0'&&strlen(newnode->nim)==1){
-        newnode->name[0]='-'; return newnode;
-    }
+    
     existed = NIM_search(root, newnode->nim);
     if(existed){
         newnode->name[0] = '-';
@@ -1179,4 +1180,3 @@ int main(){
     }
     return 0;
 }
-
