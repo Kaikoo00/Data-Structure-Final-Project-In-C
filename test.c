@@ -398,11 +398,11 @@ void delete_node(){
                 break;
         }
         int inp = getch();
-        if(inp==72 || inp ==75 ){
+        if(inp==72 || inp ==75 || inp == 119 || inp == 97){
             if(ch>1) ch--;
             else if(ch==1) ch=3;
             else continue;
-        }else if(inp == 80 || inp == 77){
+        }else if(inp == 80 || inp == 77 || inp == 115 || inp == 100){
             if(ch<3) ch++;
             else if(ch==3) ch=1;
             else continue;
@@ -528,11 +528,11 @@ void modify_data(){
                 break;
         }
         int inp = getch();
-        if(inp==72 || inp ==75 ){
+        if(inp==72 || inp ==75 || inp == 119 || inp == 97){
             if(ch>1) ch--;
             else if(ch==1) ch=3;
             else continue;
-        }else if(inp == 80 || inp == 77){
+        }else if(inp == 80 || inp == 77 || inp == 115 || inp == 100){
             if(ch<3) ch++;
             else if(ch==3) ch=1;
             else continue;
@@ -817,11 +817,11 @@ void search(){
                 break;
         }
         int inp = getch();
-        if(inp==72 || inp ==75 ){
+        if(inp==72 || inp ==75 || inp == 119 || inp == 97){
             if(ch>1) ch--;
             else if(ch==1) ch=3;
             else continue;
-        }else if(inp == 80 || inp == 77){
+        }else if(inp == 80 || inp == 77 || inp == 115 || inp == 100){
             if(ch<3) ch++;
             else if(ch==3) ch=1;
             else continue;
@@ -960,11 +960,11 @@ int main_menu(){
             break;
         }
         int inp = getch();
-        if(inp==72 || inp ==75 ){
+        if(inp==72 || inp ==75 || inp == 119 || inp == 97){
             if(ch>1) ch--;
             else if(ch==1) ch=6;
             else continue;
-        }else if(inp == 80 || inp == 77){
+        }else if(inp == 80 || inp == 77 || inp == 115 || inp == 100){
             if(ch<6) ch++;
             else if(ch==6) ch=1;
             else continue;
@@ -976,27 +976,53 @@ int main_menu(){
 
 int main(){
     printf("\033[30m"); printf("\033[47m"); system("cls"); // set background color to white and text color to black
+    printf("\n\n\n");
+    printf("            =============================================================================\n");
+    printf("            ||                                                                         ||\n");
+    printf("            || This Program Uses Keyboard Only to Navigate Through All The Features !  ||\n");
+    printf("            ||                                                                         ||\n");
+    printf("            =============================================================================\n");
+    printf("\n\n\n");
+    system("pause"); system("cls");
+    printf("\n\n\n");
+    printf("            =============================================================================\n");
+    printf("            ||                                                                         ||\n");
+    printf("            ||       Use Your Arrow Keys or WASD to Navigate Through the Program !     ||\n");
+    printf("            ||                                                                         ||\n");
+    printf("            =============================================================================\n");
+    printf("\n\n\n");
+    system("pause"); system("cls");
     int ch = 1;
     while(true){
         system("cls");
         switch(ch){
             case 1:
-                printf("Do you want to import the previous data?\n");
-                printf("> Y\n");
-                printf("N\n");
+                printf("==============================================\n");
+                printf("|| Do you want to import the previous data? ||\n");
+                printf("|| If you don't have the file, choose NO    ||\n");
+                printf("==============================================\n");
+                printf("|| > YES <                                  ||\n");
+                printf("||   NO                                     ||\n");
+                printf("==============================================\n");
                 break;
             case 2:
-                printf("Do you want to import the previous data?\n");
-                printf("Y\n");
-                printf("> N\n");
+                printf("==============================================\n");
+                printf("|| Do you want to import the previous data? ||\n");
+                printf("|| If you don't have the file, choose NO    ||\n");
+                printf("==============================================\n");
+                printf("||   YES                                    ||\n");
+                printf("|| > NO  <                                  ||\n");
+                printf("==============================================\n");
                 break;
         }
         int inp = getch();
-        if(inp==72 || inp ==75 ){
+        if(inp==72 || inp ==75 || inp == 119 || inp == 97){
             if(ch>1) ch--;
+            else if(ch==1)ch=2;
             else continue;
-        }else if(inp == 80 || inp == 77){
+        }else if(inp == 80 || inp == 77 ||inp == 115 || inp == 100){
             if(ch<2) ch++;
+            else if(ch==2) ch=1;
             else continue;
         }else if(inp==13){
             if(ch==1){
