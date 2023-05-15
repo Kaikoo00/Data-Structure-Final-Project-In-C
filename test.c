@@ -375,6 +375,7 @@ void print(){
 
 void delete_node(){
     FILE *fp = fopen(PATH,"r");
+    FILE *temp = fopen("temp.txt", "w");
     if(fp==NULL){
         printf("\n\n\n");
         printf("                =====================================================================\n");
@@ -386,7 +387,6 @@ void delete_node(){
         system("pause");
         return;
     }
-    FILE *temp = fopen("temp.txt", "w");
     struct node *parent, *curr = root;
     bool delete_status = false;
     int ch = 1;
@@ -452,6 +452,7 @@ void delete_node(){
                 printf("NIM Input Invalid\n");
             }
         }
+
         struct node temp_node;
         while(fscanf(fp, "%[^;];%[^;];%[^;];%c;%d;%f;%d;%d\n",temp_node.name, temp_node.nim, temp_node.major, &temp_node.gender, &temp_node.age, &temp_node.gpa, &temp_node.semester,&temp_node.hash_result)!=EOF){
             if(strcmp(temp_node.nim, inp_nim)==0){
