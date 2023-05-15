@@ -391,7 +391,7 @@ void print(){
 void delete_node(){
     FILE *fp = fopen(PATH,"r");
     FILE *temp = fopen("temp.txt", "w");
-    if(fp==NULL){
+    if(fp==NULL || root==NULL){
         printf("\n\n\n");
         printf("                =====================================================================\n");
         printf("                ||                                                                 ||\n");
