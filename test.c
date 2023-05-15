@@ -222,7 +222,7 @@ node* create_newnode(){
 
     while(true){ //age input
         printf("Age Input (Input 0 to cancel the Input)\n>>"); scanf("%d", &newnode->age); getchar();
-        if(80 > newnode->age>=7 || newnode->age==0){
+        if(newnode->age>=7 || newnode->age==0){
             break;
         }else{
             printf("Age Input Invalid\n");
