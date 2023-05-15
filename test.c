@@ -89,11 +89,13 @@ node* create_newnode(){
     node *newnode = malloc(sizeof(node));
     while(true){ //name input
         bool name_status = true;
-        printf("Name Input\n>>");scanf("%[^\n]", newnode->name);getchar();
+        printf("Name Input (Input 0 to go back to main menu)\n>>");scanf("%[^\n]", newnode->name);getchar();
         for(int i=0; i<strlen(newnode->name); i++){
-            if(!isalpha(newnode->name[i]) && newnode->name[i]!= ' '){
+            if(!isalpha(newnode->name[i]) && newnode->name[i]!= ' ' && newnode->name[0] != '0'){
                 name_status = false;
                 break;
+            }else if(newnode->name[0] == '0'){
+                return(newnode);
             }
         }
         if(name_status){
@@ -181,6 +183,11 @@ node* create_newnode(){
 
 void insert(){
     node *newnode = create_newnode();
+    if(newnode->name[0] == '0'){
+        printf("Input Function Canceled\n");
+        system("pause");
+        return;
+    }
     if(root==NULL){
         root = newnode;
         return;
@@ -244,6 +251,7 @@ void print(){
     }
     print_header();
     print_tree(root);
+    printf("\n");
     return;
 }
 
@@ -258,20 +266,41 @@ void delete_node(){
         print();
         switch(ch){
             case 1:
-                printf("What Detail you want to use?\n");
-                printf("> NIM\n");printf("Full Name\n");
+                printf("===========================================\n");
+                printf("|       What Detail you want to use?      |\n");
+                printf("===========================================\n");
+                printf("| > NIM --> (Uses NIM to Search)        < |\n");
+                printf("|   Name --> (Uses Full Name to Search)   |\n");
+                printf("|   Exit --> (Back to Main Menu)          |\n");
+                printf("===========================================\n");
                 break;
             case 2:
-                printf("What Detail you want to use?\n");
-                printf("NIM\n");printf("> Full Name\n");
+                printf("===========================================\n");
+                printf("|       What Detail you want to use?      |\n");
+                printf("===========================================\n");
+                printf("|   NIM --> (Uses NIM to Search)          |\n");
+                printf("| > Name --> (Uses Full Name to Search) < |\n");
+                printf("|   Exit --> (Back to Main Menu)          |\n");
+                printf("===========================================\n");
+                break;
+            case 3:
+                printf("===========================================\n");
+                printf("|       What Detail you want to use?      |\n");
+                printf("===========================================\n");
+                printf("|   NIM --> (Uses NIM to Search)          |\n");
+                printf("|   Name --> (Uses Full Name to Search)   |\n");
+                printf("| > Exit --> (Back to Main Menu)        < |\n");
+                printf("===========================================\n");
                 break;
         }
         int inp = getch();
         if(inp==72 || inp ==75 ){
             if(ch>1) ch--;
+            else if(ch==1) ch=3;
             else continue;
         }else if(inp == 80 || inp == 77){
-            if(ch<2) ch++;
+            if(ch<3) ch++;
+            else if(ch==3) ch=1;
             else continue;
         }else if(inp==13){
             break;
@@ -280,7 +309,7 @@ void delete_node(){
     if(ch==1){
         char inp_nim[30];
         while(true){ //NIM input
-            printf("NIM Input\n>>"); scanf("%[^\n]", inp_nim);getchar();
+            printf("\nInput Data's NIM that you're searching for...\n>>"); scanf("%[^\n]", inp_nim);getchar();
             bool nim_status = true;
             for(int i=0; i<strlen(inp_nim); i++){
                 if(!isdigit(inp_nim[i])){
@@ -313,7 +342,7 @@ void delete_node(){
         char inp_name[30];
         while(true){ //name input
             bool name_status = true;
-            printf("Name Input\n>>");scanf("%[^\n]", inp_name);getchar();
+            printf("\nInput Data's Name that you're searching for...\n>>");scanf("%[^\n]", inp_name);getchar();
             for(int i=0; i<strlen(inp_name); i++){
                 if(!isalpha(inp_name[i]) && inp_name[i]!= ' '){
                     name_status = false;
@@ -343,6 +372,8 @@ void delete_node(){
         deleteTree(root);
         root = NULL;
         import_data();
+    }else if(ch==3){
+        return;
     }
     if(!delete_status){
         printf("Data Not Found (!)\n");
@@ -365,22 +396,41 @@ void modify_data(){
         print();
         switch(ch){
             case 1:
-                printf("What Detail you want to use?\n");
-                printf("> NIM\n");
-                printf("Full Name\n");
+                printf("===========================================\n");
+                printf("|       What Detail you want to use?      |\n");
+                printf("===========================================\n");
+                printf("| > NIM --> (Uses NIM to Search)        < |\n");
+                printf("|   Name --> (Uses Full Name to Search)   |\n");
+                printf("|   Exit --> (Back to Main Menu)          |\n");
+                printf("===========================================\n");
                 break;
             case 2:
-                printf("What Detail you want to use?\n");
-                printf("NIM\n");
-                printf("> Full Name\n");
+                printf("===========================================\n");
+                printf("|       What Detail you want to use?      |\n");
+                printf("===========================================\n");
+                printf("|   NIM --> (Uses NIM to Search)          |\n");
+                printf("| > Name --> (Uses Full Name to Search) < |\n");
+                printf("|   Exit --> (Back to Main Menu)          |\n");
+                printf("===========================================\n");
+                break;
+            case 3:
+                printf("===========================================\n");
+                printf("|       What Detail you want to use?      |\n");
+                printf("===========================================\n");
+                printf("|   NIM --> (Uses NIM to Search)          |\n");
+                printf("|   Name --> (Uses Full Name to Search)   |\n");
+                printf("| > Exit --> (Back to Main Menu)        < |\n");
+                printf("===========================================\n");
                 break;
         }
         int inp = getch();
         if(inp==72 || inp ==75 ){
             if(ch>1) ch--;
+            else if(ch==1) ch=3;
             else continue;
         }else if(inp == 80 || inp == 77){
-            if(ch<2) ch++;
+            if(ch<3) ch++;
+            else if(ch==3) ch=1;
             else continue;
         }else if(inp==13){
             break;
@@ -389,7 +439,7 @@ void modify_data(){
     if(ch==1){
         char inp_nim[30];
         while(true){ //NIM input
-            printf("Input NIM mahasiswa\n>>"); scanf("%[^\n]", inp_nim);getchar();
+            printf("\nInput Data's NIM that you're searching for...\n>>"); scanf("%[^\n]", inp_nim);getchar();
             bool nim_status = true;
             for(int i=0; i<strlen(inp_nim); i++){
                 if(!isdigit(inp_nim[i])){
@@ -503,7 +553,7 @@ void modify_data(){
         char inp_name[30];
         while(true){ //name input
             bool name_status = true;
-            printf("Input nama mahasiswa\n>>");scanf("%[^\n]", inp_name);getchar();
+            printf("\nInput Data's Name that you're searching for...\n>>");scanf("%[^\n]", inp_name);getchar();
             for(int i=0; i<strlen(inp_name); i++){
                 if(!isalpha(inp_name[i]) && inp_name[i]!= ' '){
                     name_status = false;
@@ -614,6 +664,8 @@ void modify_data(){
         deleteTree(root);
         root = NULL;
         import_data();
+    }else if(ch==3){
+        return;
     }
     if(!modify_status){
         printf("Data Not Found (!)\n");
@@ -627,7 +679,7 @@ void modify_data(){
 
 bool NIM_search(node *curr, char *inpNIM){
     if(curr!=NULL){
-        NIM_search(curr->left, inpNIM);
+        bool found_left = NIM_search(curr->left, inpNIM);
         if(!strcmp(inpNIM, curr->nim)){
             system("cls");
             printf("================================================================================================================\n");
@@ -644,9 +696,46 @@ bool NIM_search(node *curr, char *inpNIM){
             system("pause");
             return true;
         }
-        NIM_search(curr->right, inpNIM);
+        bool found_right = NIM_search(curr->right, inpNIM);
+        return found_left || found_right;
     }
     return false;
+}
+
+bool name_search(char *inp_name){
+        bool found = false;
+        int temp_hash = hash(inp_name);
+        struct node *parent, *curr = root;
+        while(curr != NULL){
+            if(temp_hash == curr->hash_result && !strcmp(curr->name, inp_name)){
+                found = true;
+                system("cls");
+                printf("================================================================================================================\n");
+                printf("|Name                           |NIM              |Major                     |Gender  |Age   |GPA   |Semester  |\n");
+                printf("================================================================================================================\n");
+                printf("| %30s| %16s| %25s", curr->name, curr->nim, curr->major);
+                if(tolower(curr->gender)=='m'){
+                    printf("|    Male|");
+                }else{
+                    printf("|  Female|");
+                }
+                printf(" %5d| %5.2f| %9d|\n", curr->age, curr->gpa, curr->semester);
+                printf("----------------------------------------------------------------------------------------------------------------\n");
+                system("pause");
+                return true;
+            }else if(temp_hash == curr->hash_result && strcmp(curr->name, inp_name)){
+                temp_hash+=10;
+                curr = curr->right;
+            }else if(temp_hash >curr->hash_result){
+                curr = curr->right;
+            }else if(temp_hash<curr->hash_result){
+                curr = curr->left;
+            }
+            if(curr == NULL){
+                break;
+            }
+        }
+        return false;
 }
 
 void search(){
@@ -657,20 +746,41 @@ void search(){
         print();
         switch(ch){
             case 1:
-                printf("What Detail you want to use?\n");
-                printf("> NIM\n");printf("Full Name\n");
+                printf("===========================================\n");
+                printf("|       What Detail you want to use?      |\n");
+                printf("===========================================\n");
+                printf("| > NIM --> (Uses NIM to Search)        < |\n");
+                printf("|   Name --> (Uses Full Name to Search)   |\n");
+                printf("|   Exit --> (Back to Main Menu)          |\n");
+                printf("===========================================\n");
                 break;
             case 2:
-                printf("What Detail you want to use?\n");
-                printf("NIM\n");printf("> Full Name\n");
+                printf("===========================================\n");
+                printf("|       What Detail you want to use?      |\n");
+                printf("===========================================\n");
+                printf("|   NIM --> (Uses NIM to Search)          |\n");
+                printf("| > Name --> (Uses Full Name to Search) < |\n");
+                printf("|   Exit --> (Back to Main Menu)          |\n");
+                printf("===========================================\n");
+                break;
+            case 3:
+                printf("===========================================\n");
+                printf("|       What Detail you want to use?      |\n");
+                printf("===========================================\n");
+                printf("|   NIM --> (Uses NIM to Search)          |\n");
+                printf("|   Name --> (Uses Full Name to Search)   |\n");
+                printf("| > Exit --> (Back to Main Menu)        < |\n");
+                printf("===========================================\n");
                 break;
         }
         int inp = getch();
         if(inp==72 || inp ==75 ){
             if(ch>1) ch--;
+            else if(ch==1) ch=3;
             else continue;
         }else if(inp == 80 || inp == 77){
-            if(ch<2) ch++;
+            if(ch<3) ch++;
+            else if(ch==3) ch=1;
             else continue;
         }else if(inp==13){
             break;
@@ -679,7 +789,7 @@ void search(){
     if(ch==1){
         char inp_nim[30];
         while(true){ //NIM input
-            printf("NIM Input\n>>"); scanf("%[^\n]", inp_nim);getchar();
+            printf("\nInput Data's NIM that you're searching for...\n>>"); scanf("%[^\n]", inp_nim);getchar();
             bool nim_status = true;
             for(int i=0; i<strlen(inp_nim); i++){
                 if(!isdigit(inp_nim[i])){
@@ -698,7 +808,7 @@ void search(){
         char inp_name[30];
          while(true){ //name input
             bool name_status = true;
-            printf("Name Input\n>>");scanf("%[^\n]", inp_name);getchar();
+            printf("\nInput Data's Name that you're searching for...\n>>");scanf("%[^\n]", inp_name);getchar();
             for(int i=0; i<strlen(inp_name); i++){
                 if(!isalpha(inp_name[i]) && inp_name[i]!= ' '){
                     name_status = false;
@@ -711,38 +821,9 @@ void search(){
                 printf("Name Invalid\n");
             }
         }
-        int temp_hash = hash(inp_name);
-        struct node *parent, *curr = root;
-        while(true){
-            if(temp_hash == curr->hash_result && !strcmp(curr->name, inp_name)){
-                found = true;
-                system("cls");
-                printf("================================================================================================================\n");
-                printf("|Name                           |NIM              |Major                     |Gender  |Age   |GPA   |Semester  |\n");
-                printf("================================================================================================================\n");
-                printf("| %30s| %16s| %25s", curr->name, curr->nim, curr->major);
-                if(tolower(curr->gender)=='m'){
-                    printf("|    Male|");
-                }else{
-                    printf("|  Female|");
-                }
-                printf(" %5d| %5.2f| %9d|\n", curr->age, curr->gpa, curr->semester);
-                printf("----------------------------------------------------------------------------------------------------------------\n");
-                system("pause");
-                return;
-            }else if(temp_hash == curr->hash_result && strcmp(curr->name, inp_name)){
-                temp_hash+=10;
-                curr = curr->right;
-            }else if(temp_hash >curr->hash_result){
-                curr = curr->right;
-            }else if(temp_hash<curr->hash_result){
-                curr = curr->left;
-            }
-            if(curr == NULL){
-                break;
-            }
-        }
-        
+        found =  name_search(inp_name);
+    }else if(ch==3){
+        return;
     }
     if(!found){
         printf("\nData Not Found (!)\n");
@@ -758,65 +839,91 @@ int main_menu(){
         {
         case 1:
             system("cls");
-            printf("> 1. Input New Data <\n");
-            printf("2. Print Data\n");
-            printf("3. Delete Node\n");
-            printf("4. Modify Existing Data\n");
-            printf("5. Search\n");
-            printf("6. Exit\n");
+            printf("===========================================================================\n");
+            printf("|                       STUDENT DATA CENTER                               |\n");
+            printf("===========================================================================\n");
+            printf("| > 1. Input New Data --> (Will be saved in data.txt for following use) < |\n");
+            printf("|   2. Print Data  --> (Displays the whole data in form of a table)       |\n");
+            printf("|   3. Delete Node --> (Deletes Node Permanently)                         |\n");
+            printf("|   4. Modify Existing Data --> (Change data's details and Save it)       |\n");
+            printf("|   5. Search --> (Display a single data that matches the Input)          |\n");
+            printf("|   6. Exit --> (Exits The Program)                                       |\n");
+            printf("===========================================================================\n");
             break;
         case 2:
             system("cls");
-            printf("1. Input New Data\n");
-            printf("> 2. Print Data <\n");
-            printf("3. Delete Node\n");
-            printf("4. Modify Existing Data\n");
-             printf("5. Search\n");
-            printf("6. Exit\n");
+            printf("===========================================================================\n");
+            printf("|                       STUDENT DATA CENTER                               |\n");
+            printf("===========================================================================\n");
+            printf("|   1. Input New Data --> (Will be saved in data.txt for following use)   |\n");
+            printf("| > 2. Print Data  --> (Displays the whole data in form of a table)     < |\n");
+            printf("|   3. Delete Node --> (Deletes Node Permanently)                         |\n");
+            printf("|   4. Modify Existing Data --> (Change data's details and Save it)       |\n");
+            printf("|   5. Search --> (Display a single data that matches the Input)          |\n");
+            printf("|   6. Exit --> (Exits The Program)                                       |\n");
+            printf("===========================================================================\n");
             break;
         case 3:
             system("cls");
-            printf("1. Input New Data\n");
-            printf("2. Print Data\n");
-            printf("> 3. Delete Node <\n");
-            printf("4. Modify Existing Data\n");
-             printf("5. Search\n");
-            printf("6. Exit\n");
+            printf("===========================================================================\n");
+            printf("|                       STUDENT DATA CENTER                               |\n");
+            printf("===========================================================================\n");
+            printf("|   1. Input New Data --> (Will be saved in data.txt for following use)   |\n");
+            printf("|   2. Print Data  --> (Displays the whole data in form of a table)       |\n");
+            printf("| > 3. Delete Node --> (Deletes Node Permanently)                       < |\n");
+            printf("|   4. Modify Existing Data --> (Change data's details and Save it)       |\n");
+            printf("|   5. Search --> (Display a single data that matches the Input)          |\n");
+            printf("|   6. Exit --> (Exits The Program)                                       |\n");
+            printf("===========================================================================\n");
             break;
         case 4:
             system("cls");
-            printf("1. Input New Data\n");
-            printf("2. Print Data\n");
-            printf("3. Delete Node\n");
-            printf("> 4. Modify Existing Data <\n");
-             printf("5. Search\n");
-            printf("6. Exit\n");
+            printf("===========================================================================\n");
+            printf("|                       STUDENT DATA CENTER                               |\n");
+            printf("===========================================================================\n");
+            printf("|   1. Input New Data --> (Will be saved in data.txt for following use)   |\n");
+            printf("|   2. Print Data  --> (Displays the whole data in form of a table)       |\n");
+            printf("|   3. Delete Node --> (Deletes Node Permanently)                         |\n");
+            printf("| > 4. Modify Existing Data --> (Change data's details and Save it)     < |\n");
+            printf("|   5. Search --> (Display a single data that matches the Input)          |\n");
+            printf("|   6. Exit --> (Exits The Program)                                       |\n");
+            printf("===========================================================================\n");
             break;
         case 5:
             system("cls");
-            printf("1. Input New Data\n");
-            printf("2. Print Data\n");
-            printf("3. Delete Node\n");
-            printf("4. Modify Existing Data\n");
-             printf("> 5. Search <\n");
-            printf("6. Exit\n");
+            printf("===========================================================================\n");
+            printf("|                       STUDENT DATA CENTER                               |\n");
+            printf("===========================================================================\n");
+            printf("|   1. Input New Data --> (Will be saved in data.txt for following use)   |\n");
+            printf("|   2. Print Data  --> (Displays the whole data in form of a table)       |\n");
+            printf("|   3. Delete Node --> (Deletes Node Permanently)                         |\n");
+            printf("|   4. Modify Existing Data --> (Change data's details and Save it)       |\n");
+            printf("| > 5. Search --> (Display a single data that matches the Input)        < |\n");
+            printf("|   6. Exit --> (Exits The Program)                                       |\n");
+            printf("===========================================================================\n");
             break;
         case 6:
             system("cls");
-            printf("1. Input New Data\n");
-            printf("2. Print Data\n");
-            printf("3. Delete Node\n");
-            printf("4. Modify Existing Data\n");
-             printf("5. Search\n");
-            printf("> 6. Exit <\n");
+            printf("===========================================================================\n");
+            printf("|                       STUDENT DATA CENTER                               |\n");
+            printf("===========================================================================\n");
+            printf("|   1. Input New Data --> (Will be saved in data.txt for following use)   |\n");
+            printf("|   2. Print Data  --> (Displays the whole data in form of a table)       |\n");
+            printf("|   3. Delete Node --> (Deletes Node Permanently)                         |\n");
+            printf("|   4. Modify Existing Data --> (Change data's details and Save it)       |\n");
+            printf("|   5. Search --> (Display a single data that matches the Input)          |\n");
+            printf("| > 6. Exit --> (Exits The Program)                                     < |\n");
+            printf("===========================================================================\n");
             break;
         }
         int inp = getch();
         if(inp==72 || inp ==75 ){
             if(ch>1) ch--;
+            else if(ch==1) ch=6;
             else continue;
         }else if(inp == 80 || inp == 77){
             if(ch<6) ch++;
+            else if(ch==6) ch=1;
             else continue;
         }else if(inp==13){
             return ch;
