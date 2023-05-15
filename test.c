@@ -9,7 +9,7 @@
 typedef struct node{
     char name[30];
     char nim[30];
-    char major[30];
+    char major[50];
     float gpa;
     char gender;
     int semester;
@@ -85,13 +85,82 @@ void import_data(){
     return;
 }
 
+bool NIM_search(node *curr, char *inpNIM){
+    if(curr!=NULL){
+        bool found_left = NIM_search(curr->left, inpNIM);
+        if(!strcmp(inpNIM, curr->nim)){
+            system("cls");
+            printf("================================================================================================================\n");
+            printf("|Name                           |NIM              |Major                     |Gender  |Age   |GPA   |Semester  |\n");
+            printf("================================================================================================================\n");
+            printf("| %30s| %16s| %25s", curr->name, curr->nim, curr->major);
+            if(tolower(curr->gender)=='m'){
+                printf("|    Male|");
+            }else{
+                printf("|  Female|");
+            }
+            printf(" %5d| %5.2f| %9d|\n", curr->age, curr->gpa, curr->semester);
+            printf("----------------------------------------------------------------------------------------------------------------\n");
+            system("pause");
+            return true;
+        }
+        bool found_right = NIM_search(curr->right, inpNIM);
+        return found_left || found_right;
+    }
+    return false;
+}
+
+bool name_search(char *inp_name){
+        bool found = false;
+        int temp_hash = hash(inp_name);
+        struct node *parent, *curr = root;
+        while(curr != NULL){
+            if(temp_hash == curr->hash_result && !strcmp(curr->name, inp_name)){
+                found = true;
+                system("cls");
+                printf("================================================================================================================\n");
+                printf("|Name                           |NIM              |Major                     |Gender  |Age   |GPA   |Semester  |\n");
+                printf("================================================================================================================\n");
+                printf("| %30s| %16s| %25s", curr->name, curr->nim, curr->major);
+                if(tolower(curr->gender)=='m'){
+                    printf("|    Male|");
+                }else{
+                    printf("|  Female|");
+                }
+                printf(" %5d| %5.2f| %9d|\n", curr->age, curr->gpa, curr->semester);
+                printf("----------------------------------------------------------------------------------------------------------------\n");
+                system("pause");
+                return true;
+            }else if(temp_hash == curr->hash_result && strcmp(curr->name, inp_name)){
+                temp_hash+=10;
+                curr = curr->right;
+            }else if(temp_hash >curr->hash_result){
+                curr = curr->right;
+            }else if(temp_hash<curr->hash_result){
+                curr = curr->left;
+            }
+            if(curr == NULL){
+                break;
+            }
+        }
+        return false;
+}
+
 node* create_newnode(){
     node *newnode = malloc(sizeof(node));
+    bool existed = false;
     while(true){ //name input
         bool name_status = true;
         printf("Name Input (Input 0 to go back to main menu)\n>>");scanf("%[^\n]", newnode->name);getchar();
+        if(newnode->name[0]=='0' && strlen(newnode->name)==1){
+            return newnode;
+        }
+        if(strlen(newnode->name)<6 || strlen(newnode->name)>30){
+            printf("Name Invalid\n");
+            continue;
+        }
         for(int i=0; i<strlen(newnode->name); i++){
-            if(!isalpha(newnode->name[i]) && newnode->name[i]!= ' ' && newnode->name[0] != '0'){
+            if(!isalpha(newnode->name[i]) && newnode->name[i]!= ' '){
                 name_status = false;
                 break;
             }else if(newnode->name[0] == '0'){
@@ -104,28 +173,19 @@ node* create_newnode(){
             printf("Name Invalid\n");
         }
     }
-    
-    while(true){ //gender input
-        printf("Gender Input(M/F)\n>>"); scanf("%c",&newnode->gender);getchar();
-        if(tolower(newnode->gender)=='m' ||tolower(newnode->gender)=='f'){
-            break;
-        }else{
-            printf("Gender Input Invalid\n");
-        }
-    }
-    
-    while(true){ //age input
-        printf("Age Input\n>>"); scanf("%d", &newnode->age); getchar();
-        if(newnode->age>=7){
-            break;
-        }else{
-            printf("Age Input Invalid\n");
-        }
+    existed = name_search(newnode->name);
+    if(existed){
+        newnode->name[0] = '-';
+        return newnode;
     }
     
     while(true){ //NIM input
-        printf("NIM Input\n>>"); scanf("%[^\n]", newnode->nim);getchar();
+        printf("NIM Input (Input 0 to cancel the Input)\n>>"); scanf("%[^\n]", newnode->nim);getchar();
         bool nim_status = true;
+        if(strlen(newnode->nim)<6 || strlen(newnode->nim)>30){
+            printf("NIM Input Invalid\n");
+            continue;
+        }
         for(int i=0; i<strlen(newnode->nim); i++){
             if(!isdigit(newnode->nim[i])){
                 nim_status = false;
@@ -138,12 +198,46 @@ node* create_newnode(){
             printf("NIM Input Invalid\n");
         }
     }
+    if(newnode->nim[0]=='0'&&strlen(newnode->nim)==1){
+        newnode->name[0]='-'; return newnode;
+    }
+    existed = NIM_search(root, newnode->nim);
+    if(existed){
+        newnode->name[0] = '-';
+        return newnode;
+    }
+
+    while(true){ //gender input
+        printf("Gender Input (M/F) (Input 0 to cancel the Input)\n>>"); scanf("%c",&newnode->gender);getchar();
+        if(tolower(newnode->gender)=='m' ||tolower(newnode->gender)=='f' || newnode->gender=='0'){
+            break;
+        }else{
+            printf("Gender Input Invalid\n");
+        }
+    }
+    
+    if(newnode->gender=='0'){
+        newnode->name[0]='-'; return newnode;
+    }
+
+    while(true){ //age input
+        printf("Age Input (Input 0 to cancel the Input)\n>>"); scanf("%d", &newnode->age); getchar();
+        if(80 > newnode->age>=7 || newnode->age==0){
+            break;
+        }else{
+            printf("Age Input Invalid\n");
+        }
+    }
+
+    if(newnode->age == 0){
+        newnode->name[0]='-'; return newnode;
+    }
 
     while(true){ //Major Input
-        printf("Major Input\n>>"); scanf("%[^\n]", newnode->major);getchar();
+        printf("Major Input (Input 0 to cancel the Input)\n>>"); scanf("%[^\n]", newnode->major);getchar();
         bool major_status = true;
         for(int i=0; i<strlen(newnode->major); i++){
-            if(!isalpha(newnode->major[i]) && newnode->major[i]!= ' '){
+            if(!isalpha(newnode->major[i]) && newnode->major[i]!= ' ' && newnode->major[0] != '0'){
                 major_status = false;
                 break;
             }
@@ -155,9 +249,15 @@ node* create_newnode(){
         }
     }
 
+    if(newnode->major[0]=='0'){
+        newnode->name[0]='-'; return newnode;
+    }
+
     while(true){ //GPA Input
-        printf(" GPA Input\n>>"); scanf("%f", &newnode->gpa);getchar();
-        if(newnode->gpa<0 && newnode->gpa>4){
+        printf(" GPA Input (Input -1 to cancel the Input)\n>>"); scanf("%f", &newnode->gpa);getchar();
+        if(newnode->gpa==-1){
+            newnode->name[0]='-'; return newnode;
+        }else if(newnode->gpa<0 && newnode->gpa>4){
             printf("GPA Input Invalid\n");
         }else{
             break;
@@ -165,12 +265,15 @@ node* create_newnode(){
     }
     
     while(true){ //Semester Input
-        printf("Semester Input\n>>"); scanf("%d", &newnode->semester);getchar();
-        if(newnode->semester>10 || newnode->semester<=0){
+        printf("Semester Input (Input 0 to cancel the Input)\n>>"); scanf("%d", &newnode->semester);getchar();
+        if(newnode->semester>10 || newnode->semester<0){
             printf("Semester Input Invalid\n");
         }else{
             break;
         }
+    }
+    if(newnode->semester==0){
+        newnode->name[0]='-'; return newnode;
     }
 
     newnode->hash_result = hash(newnode->name);
@@ -183,8 +286,9 @@ node* create_newnode(){
 
 void insert(){
     node *newnode = create_newnode();
-    if(newnode->name[0] == '0'){
+    if(newnode->name[0] == '0' || newnode->name[0] == '-'){
         printf("Input Function Canceled\n");
+        free(newnode);
         system("pause");
         return;
     }
@@ -675,67 +779,6 @@ void modify_data(){
         system("pause");
     }
     return;
-}
-
-bool NIM_search(node *curr, char *inpNIM){
-    if(curr!=NULL){
-        bool found_left = NIM_search(curr->left, inpNIM);
-        if(!strcmp(inpNIM, curr->nim)){
-            system("cls");
-            printf("================================================================================================================\n");
-            printf("|Name                           |NIM              |Major                     |Gender  |Age   |GPA   |Semester  |\n");
-            printf("================================================================================================================\n");
-            printf("| %30s| %16s| %25s", curr->name, curr->nim, curr->major);
-            if(tolower(curr->gender)=='m'){
-                printf("|    Male|");
-            }else{
-                printf("|  Female|");
-            }
-            printf(" %5d| %5.2f| %9d|\n", curr->age, curr->gpa, curr->semester);
-            printf("----------------------------------------------------------------------------------------------------------------\n");
-            system("pause");
-            return true;
-        }
-        bool found_right = NIM_search(curr->right, inpNIM);
-        return found_left || found_right;
-    }
-    return false;
-}
-
-bool name_search(char *inp_name){
-        bool found = false;
-        int temp_hash = hash(inp_name);
-        struct node *parent, *curr = root;
-        while(curr != NULL){
-            if(temp_hash == curr->hash_result && !strcmp(curr->name, inp_name)){
-                found = true;
-                system("cls");
-                printf("================================================================================================================\n");
-                printf("|Name                           |NIM              |Major                     |Gender  |Age   |GPA   |Semester  |\n");
-                printf("================================================================================================================\n");
-                printf("| %30s| %16s| %25s", curr->name, curr->nim, curr->major);
-                if(tolower(curr->gender)=='m'){
-                    printf("|    Male|");
-                }else{
-                    printf("|  Female|");
-                }
-                printf(" %5d| %5.2f| %9d|\n", curr->age, curr->gpa, curr->semester);
-                printf("----------------------------------------------------------------------------------------------------------------\n");
-                system("pause");
-                return true;
-            }else if(temp_hash == curr->hash_result && strcmp(curr->name, inp_name)){
-                temp_hash+=10;
-                curr = curr->right;
-            }else if(temp_hash >curr->hash_result){
-                curr = curr->right;
-            }else if(temp_hash<curr->hash_result){
-                curr = curr->left;
-            }
-            if(curr == NULL){
-                break;
-            }
-        }
-        return false;
 }
 
 void search(){
