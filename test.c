@@ -471,10 +471,59 @@ void delete_node(){
         struct node temp_node;
         while(fscanf(fp, "%[^;];%[^;];%[^;];%c;%d;%f;%d;%d\n",temp_node.name, temp_node.nim, temp_node.major, &temp_node.gender, &temp_node.age, &temp_node.gpa, &temp_node.semester,&temp_node.hash_result)!=EOF){
             if(strcmp(temp_node.nim, inp_nim)==0){
-                deleteTree(root);
-                root = NULL;
-                delete_status = true;
-                continue;
+                int ch = 1;
+                while(true){
+                    system("cls");
+                    print_header();
+                    printf("| %30s| %16s| %25s",temp_node.name, temp_node.nim, temp_node.major);
+                    if(tolower(temp_node.gender)=='m'){
+                        printf("|    Male|");
+                    }else{
+                        printf("|  Female|");
+                    }
+                    printf(" %5d| %5.2f| %9d|\n", temp_node.age, temp_node.gpa, temp_node.semester);
+                    printf("----------------------------------------------------------------------------------------------------------------\n\n");
+                    switch (ch){
+                        case 1:
+                            printf("===========================================\n");
+                            printf("|               Delete Data?              |\n");
+                            printf("===========================================\n");
+                            printf("| > Delete Node                         < |\n");
+                            printf("| Cancel and Exit Menu                    |\n");
+                            printf("===========================================\n");
+                            break;
+                        case 2:
+                            printf("===========================================\n");
+                            printf("|               Delete Data?              |\n");
+                            printf("===========================================\n");
+                            printf("|   Delete Node                           |\n");
+                            printf("| > Cancel and Exit Menu                < |\n");
+                            printf("===========================================\n");
+                        break;
+                    }
+                    int inp = getch();
+                    if(inp==72 || inp ==75 || inp == 119 || inp == 97){
+                        if(ch>1) ch--;
+                        else if(ch==1) ch=2;
+                        else continue;
+                    }else if(inp == 80 || inp == 77 || inp == 115 || inp == 100){
+                        if(ch<2) ch++;
+                        else if(ch==2) ch=1;
+                        else continue;
+                    }else if(inp==13){
+                        break;
+                    }
+                }
+                if(ch==1){
+                    deleteTree(root);
+                    root = NULL;
+                    delete_status = true;
+                    continue;
+                }else{
+                    printf("\nData Deletion has been canceled !\n");
+                    system("pause");
+                    return;
+                }
             }else{
                 fprintf(temp, "%s;%s;%s;%c;%d;%.2f;%d;%d\n", temp_node.name, temp_node.nim, temp_node.major, temp_node.gender, temp_node.age, temp_node.gpa, temp_node.semester,temp_node.hash_result);
             }
@@ -505,10 +554,59 @@ void delete_node(){
         struct node temp_node;
         while(fscanf(fp, "%[^;];%[^;];%[^;];%c;%d;%f;%d;%d\n",temp_node.name, temp_node.nim, temp_node.major, &temp_node.gender, &temp_node.age, &temp_node.gpa, &temp_node.semester,&temp_node.hash_result)!=EOF){
             if(strcmp(temp_node.name, inp_name)==0){
-                deleteTree(root);
-                root = NULL;
-                delete_status = true;
-                continue;
+                int ch = 1;
+                while(true){
+                    system("cls");
+                    print_header();
+                    printf("| %30s| %16s| %25s",temp_node.name, temp_node.nim, temp_node.major);
+                    if(tolower(temp_node.gender)=='m'){
+                        printf("|    Male|");
+                    }else{
+                        printf("|  Female|");
+                    }
+                    printf(" %5d| %5.2f| %9d|\n", temp_node.age, temp_node.gpa, temp_node.semester);
+                    printf("----------------------------------------------------------------------------------------------------------------\n\n");
+                    switch (ch){
+                        case 1:
+                            printf("===========================================\n");
+                            printf("|               Delete Data?              |\n");
+                            printf("===========================================\n");
+                            printf("| > Delete Node                         < |\n");
+                            printf("| Cancel and Exit Menu                    |\n");
+                            printf("===========================================\n");
+                            break;
+                        case 2:
+                            printf("===========================================\n");
+                            printf("|               Delete Data?              |\n");
+                            printf("===========================================\n");
+                            printf("|   Delete Node                           |\n");
+                            printf("| > Cancel and Exit Menu                < |\n");
+                            printf("===========================================\n");
+                        break;
+                    }
+                    int inp = getch();
+                    if(inp==72 || inp ==75 || inp == 119 || inp == 97){
+                        if(ch>1) ch--;
+                        else if(ch==1) ch=2;
+                        else continue;
+                    }else if(inp == 80 || inp == 77 || inp == 115 || inp == 100){
+                        if(ch<2) ch++;
+                        else if(ch==2) ch=1;
+                        else continue;
+                    }else if(inp==13){
+                        break;
+                    }
+                }
+                if(ch==1){
+                    deleteTree(root);
+                    root = NULL;
+                    delete_status = true;
+                    continue;
+                }else{
+                    printf("\nData Deletion has been canceled !\n");
+                    system("pause");
+                    return;
+                }
             }else{
                 fprintf(temp, "%s;%s;%s;%c;%d;%.2f;%d;%d\n", temp_node.name, temp_node.nim, temp_node.major, temp_node.gender, temp_node.age, temp_node.gpa, temp_node.semester,temp_node.hash_result);
             }
@@ -1093,7 +1191,7 @@ int main(){
         }
         else if(i==2){
             printf("                -----------------------------------------------------------------------------\n");
-            printf("                |++++++++++++++++++++++++++++++++++++                                         |\n");
+            printf("                |++++++++++++++++++++++++++++++++++++                                       |\n");
             printf("                -----------------------------------------------------------------------------\n");
         }
         else if(i==3){
@@ -1131,7 +1229,7 @@ int main(){
         }
         else if(i==2){
             printf("                -----------------------------------------------------------------------------\n");
-            printf("                |++++++++++++++++++++++++++++++++++++                                         |\n");
+            printf("                |++++++++++++++++++++++++++++++++++++                                       |\n");
             printf("                -----------------------------------------------------------------------------\n");
         }
         else if(i==3){
