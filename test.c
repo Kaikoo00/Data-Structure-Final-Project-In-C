@@ -42,13 +42,7 @@ void import_data(){
     FILE *fp = fopen(PATH, "r");
     if(fp==NULL){
         system("cls");
-        printf("\n\n\n");
-        printf("                =====================================================================\n");
-        printf("                ||                                                                 ||\n");
-        printf("                || File Don't Exist Please Input Some New Data And Make A New File ||\n");
-        printf("                ||                                                                 ||\n");
-        printf("                =====================================================================\n");
-        printf("\n\n\n");
+        puts("\n\n\n                =====================================================================\n                ||                                                                 ||\n                || File Don't Exist Please Input Some New Data And Make A New File ||\n                ||                                                                 ||\n                =====================================================================\n\n\n\n");
         system("pause");
         return;
     }
@@ -98,17 +92,14 @@ bool NIM_search(node *curr, char *inpNIM){
         bool found_left = NIM_search(curr->left, inpNIM);
         if(!strcmp(inpNIM, curr->nim)){
             system("cls");
-            printf("================================================================================================================\n");
-            printf("|Name                           |NIM              |Major                     |Gender  |Age   |GPA   |Semester  |\n");
-            printf("================================================================================================================\n");
+            puts("================================================================================================================\n|Name                           |NIM              |Major                     |Gender  |Age   |GPA   |Semester  |\n================================================================================================================");
             printf("| %30s| %16s| %25s", curr->name, curr->nim, curr->major);
             if(tolower(curr->gender)=='m'){
                 printf("|    Male|");
             }else{
                 printf("|  Female|");
             }
-            printf(" %5d| %5.2f| %9d|\n", curr->age, curr->gpa, curr->semester);
-            printf("----------------------------------------------------------------------------------------------------------------\n");
+            printf(" %5d| %5.2f| %9d|\n----------------------------------------------------------------------------------------------------------------\n", curr->age, curr->gpa, curr->semester);
             system("pause");
             return true;
         }
@@ -126,17 +117,14 @@ bool name_search(char *inp_name){
             if(temp_hash == curr->hash_result && !strcmp(curr->name, inp_name)){
                 found = true;
                 system("cls");
-                printf("================================================================================================================\n");
-                printf("|Name                           |NIM              |Major                     |Gender  |Age   |GPA   |Semester  |\n");
-                printf("================================================================================================================\n");
+                puts("================================================================================================================\n|Name                           |NIM              |Major                     |Gender  |Age   |GPA   |Semester  |\n================================================================================================================");
                 printf("| %30s| %16s| %25s", curr->name, curr->nim, curr->major);
                 if(tolower(curr->gender)=='m'){
                     printf("|    Male|");
                 }else{
                     printf("|  Female|");
                 }
-                printf(" %5d| %5.2f| %9d|\n", curr->age, curr->gpa, curr->semester);
-                printf("----------------------------------------------------------------------------------------------------------------\n");
+                printf(" %5d| %5.2f| %9d|\n----------------------------------------------------------------------------------------------------------------\n", curr->age, curr->gpa, curr->semester);
                 system("pause");
                 return true;
             }else if(temp_hash == curr->hash_result && strcmp(curr->name, inp_name)){
@@ -164,7 +152,7 @@ node* create_newnode(){
             return newnode;
         }
         if(strlen(newnode->name)<6 || strlen(newnode->name)>30){
-            printf("Name Invalid\n");
+            puts("Name Invalid\n");
             continue;
         }
         for(int i=0; i<strlen(newnode->name); i++){
@@ -178,7 +166,7 @@ node* create_newnode(){
         if(name_status){
             break;
         }else{
-            printf("Name Invalid\n");
+            puts("Name Invalid\n");
         }
     }
     existed = name_search(newnode->name);
@@ -194,7 +182,7 @@ node* create_newnode(){
         	newnode->name[0]='-'; return newnode;
     	}
         if(strlen(newnode->nim)<6 || strlen(newnode->nim)>30){
-            printf("NIM Input Invalid\n");
+            puts("NIM Input Invalid\n");
             continue;
         }
         for(int i=0; i<strlen(newnode->nim); i++){
@@ -206,7 +194,7 @@ node* create_newnode(){
         if(nim_status){
             break;
         }else{
-            printf("NIM Input Invalid\n");
+            puts("NIM Input Invalid\n");
         }
     }
     
@@ -221,7 +209,7 @@ node* create_newnode(){
         if(tolower(newnode->gender)=='m' ||tolower(newnode->gender)=='f' || newnode->gender=='0'){
             break;
         }else{
-            printf("Gender Input Invalid\n");
+            puts("Gender Input Invalid\n");
         }
     }
     
@@ -252,7 +240,7 @@ node* create_newnode(){
             newnode->age = atoi(temp_age);
             break;
         }else{
-            printf("Age Input Invalid\n");
+            puts("Age Input Invalid\n");
         }
     }
 
@@ -268,7 +256,7 @@ node* create_newnode(){
         if(major_status){
             break;
         }else{
-            printf("Major Invalid\n");
+            puts("Major Invalid\n");
         }
     }
 
@@ -281,7 +269,7 @@ node* create_newnode(){
         if(newnode->gpa==-1){
             newnode->name[0]='-'; return newnode;
         }else if(newnode->gpa<0 || newnode->gpa>4){
-            printf("GPA Input Invalid\n");
+            puts("GPA Input Invalid\n");
         }else{
             break;
         }
@@ -290,7 +278,7 @@ node* create_newnode(){
     while(true){ //Semester Input
         printf("Semester Input (Input 0 to cancel the Input)\n>>"); scanf("%d", &newnode->semester);getchar();
         if(newnode->semester>10 || newnode->semester<0){
-            printf("Semester Input Invalid\n");
+            puts("Semester Input Invalid\n");
         }else{
             break;
         }
@@ -310,7 +298,7 @@ node* create_newnode(){
 void insert(){
     node *newnode = create_newnode();
     if(newnode->name[0] == '0' || newnode->name[0] == '-'){
-        printf("Input Function Canceled\n");
+        puts("Input Function Canceled\n");
         free(newnode);
         system("pause");
         return;
@@ -347,9 +335,7 @@ void insert(){
 }
 
 void print_header(){
-    printf("================================================================================================================\n");
-    printf("| Name                          | NIM             | Major                    | Gender | Age  | GPA  | Semester |\n");
-    printf("================================================================================================================\n");
+    puts("================================================================================================================\n| Name                          | NIM             | Major                    | Gender | Age  | GPA  | Semester |\n================================================================================================================");
     return;
 }
 
@@ -365,7 +351,7 @@ void print_tree(struct node *head){
         printf("|  Female|");
     }
     printf(" %5d| %5.2f| %9d|\n", head->age, head->gpa, head->semester);
-    printf("----------------------------------------------------------------------------------------------------------------\n");
+    puts("----------------------------------------------------------------------------------------------------------------");
     
     print_tree(head->left); 
     return;
@@ -373,13 +359,7 @@ void print_tree(struct node *head){
 
 void print(){
     if(root == NULL){
-        printf("\n\n\n");
-        printf("                =====================================================================\n");
-        printf("                ||                                                                 ||\n");
-        printf("                || Import the data from existing file first or input some new data ||\n");
-        printf("                ||                                                                 ||\n");
-        printf("                =====================================================================\n");
-        printf("\n\n\n");
+        puts("\n\n\n                =====================================================================\n                ||                                                                 ||\n                || Import the data from existing file first or input some new data ||\n                ||                                                                 ||\n                =====================================================================\n\n\n\n");
         return;
     }
     print_header();
@@ -392,13 +372,7 @@ void delete_node(){
     FILE *fp = fopen(PATH,"r");
     FILE *temp = fopen("temp.txt", "w");
     if(fp==NULL || root==NULL){
-        printf("\n\n\n");
-        printf("                =====================================================================\n");
-        printf("                ||                                                                 ||\n");
-        printf("                || Import the data from existing file first or input some new data ||\n");
-        printf("                ||                                                                 ||\n");
-        printf("                =====================================================================\n");
-        printf("\n\n\n");
+        puts("\n\n\n                =====================================================================\n                ||                                                                 ||\n                || Import the data from existing file first or input some new data ||\n                ||                                                                 ||\n                =====================================================================\n\n\n\n");
         system("pause");
         return;
     }
@@ -410,31 +384,13 @@ void delete_node(){
         print();
         switch(ch){
             case 1:
-                printf("===========================================\n");
-                printf("|       What Detail you want to use?      |\n");
-                printf("===========================================\n");
-                printf("| > NIM --> (Uses NIM to Search)        < |\n");
-                printf("|   Name --> (Uses Full Name to Search)   |\n");
-                printf("|   Exit --> (Back to Main Menu)          |\n");
-                printf("===========================================\n");
+                puts("===========================================\n|       What Detail you want to use?      |\n===========================================\n| > NIM --> (Uses NIM to Search)        < |\n|   Name --> (Uses Full Name to Search)   |\n|   Exit --> (Back to Main Menu)          |\n===========================================");
                 break;
             case 2:
-                printf("===========================================\n");
-                printf("|       What Detail you want to use?      |\n");
-                printf("===========================================\n");
-                printf("|   NIM --> (Uses NIM to Search)          |\n");
-                printf("| > Name --> (Uses Full Name to Search) < |\n");
-                printf("|   Exit --> (Back to Main Menu)          |\n");
-                printf("===========================================\n");
+                puts("===========================================\n|       What Detail you want to use?      |\n===========================================\n|   NIM --> (Uses NIM to Search)          |\n| > Name --> (Uses Full Name to Search) < |\n|   Exit --> (Back to Main Menu)          |\n===========================================");
                 break;
             case 3:
-                printf("===========================================\n");
-                printf("|       What Detail you want to use?      |\n");
-                printf("===========================================\n");
-                printf("|   NIM --> (Uses NIM to Search)          |\n");
-                printf("|   Name --> (Uses Full Name to Search)   |\n");
-                printf("| > Exit --> (Back to Main Menu)        < |\n");
-                printf("===========================================\n");
+                puts("===========================================\n|       What Detail you want to use?      |\n===========================================\n|   NIM --> (Uses NIM to Search)          |\n|   Name --> (Uses Full Name to Search)   |\n| > Exit --> (Back to Main Menu)        < |\n===========================================");
                 break;
         }
         int inp = getch();
@@ -464,7 +420,7 @@ void delete_node(){
             if(nim_status){
                 break;
             }else{
-                printf("NIM Input Invalid\n");
+                puts("NIM Input Invalid\n");
             }
         }
 
@@ -482,24 +438,14 @@ void delete_node(){
                         printf("|  Female|");
                     }
                     printf(" %5d| %5.2f| %9d|\n", temp_node.age, temp_node.gpa, temp_node.semester);
-                    printf("----------------------------------------------------------------------------------------------------------------\n\n");
+                    puts("----------------------------------------------------------------------------------------------------------------\n");
                     switch (ch){
                         case 1:
-                            printf("===========================================\n");
-                            printf("|               Delete Data?              |\n");
-                            printf("===========================================\n");
-                            printf("| > Delete Node                         < |\n");
-                            printf("| Cancel and Exit Menu                    |\n");
-                            printf("===========================================\n");
+                            puts("===========================================\n|               Delete Data?              |\n===========================================\n| > Delete Node                         < |\n|   Cancel and Exit Menu                  |\n===========================================\n");
                             break;
                         case 2:
-                            printf("===========================================\n");
-                            printf("|               Delete Data?              |\n");
-                            printf("===========================================\n");
-                            printf("|   Delete Node                           |\n");
-                            printf("| > Cancel and Exit Menu                < |\n");
-                            printf("===========================================\n");
-                        break;
+                            puts("===========================================\n|               Delete Data?              |\n===========================================\n|   Delete Node                           |\n| > Cancel and Exit Menu                < |\n===========================================\n");
+                            break;
                     }
                     int inp = getch();
                     if(inp==72 || inp ==75 || inp == 119 || inp == 97){
@@ -520,7 +466,7 @@ void delete_node(){
                     delete_status = true;
                     continue;
                 }else{
-                    printf("\nData Deletion has been canceled !\n");
+                    puts("\nData Deletion has been canceled !\n");
                     system("pause");
                     return;
                 }
@@ -548,7 +494,7 @@ void delete_node(){
             if(name_status){
                 break;
             }else{
-                printf("Name Invalid\n");
+                puts("Name Invalid\n");
             }
         }
         struct node temp_node;
@@ -565,24 +511,14 @@ void delete_node(){
                         printf("|  Female|");
                     }
                     printf(" %5d| %5.2f| %9d|\n", temp_node.age, temp_node.gpa, temp_node.semester);
-                    printf("----------------------------------------------------------------------------------------------------------------\n\n");
+                    puts("----------------------------------------------------------------------------------------------------------------\n");
                     switch (ch){
                         case 1:
-                            printf("===========================================\n");
-                            printf("|               Delete Data?              |\n");
-                            printf("===========================================\n");
-                            printf("| > Delete Node                         < |\n");
-                            printf("| Cancel and Exit Menu                    |\n");
-                            printf("===========================================\n");
+                            puts("===========================================\n|               Delete Data?              |\n===========================================\n| > Delete Node                         < |\n|   Cancel and Exit Menu                  |\n===========================================\n");
                             break;
                         case 2:
-                            printf("===========================================\n");
-                            printf("|               Delete Data?              |\n");
-                            printf("===========================================\n");
-                            printf("|   Delete Node                           |\n");
-                            printf("| > Cancel and Exit Menu                < |\n");
-                            printf("===========================================\n");
-                        break;
+                            puts("===========================================\n|               Delete Data?              |\n===========================================\n|   Delete Node                           |\n| > Cancel and Exit Menu                < |\n===========================================\n");
+                            break;
                     }
                     int inp = getch();
                     if(inp==72 || inp ==75 || inp == 119 || inp == 97){
@@ -603,7 +539,7 @@ void delete_node(){
                     delete_status = true;
                     continue;
                 }else{
-                    printf("\nData Deletion has been canceled !\n");
+                    puts("\nData Deletion has been canceled !\n");
                     system("pause");
                     return;
                 }
@@ -621,10 +557,10 @@ void delete_node(){
         return;
     }
     if(!delete_status){
-        printf("Data Not Found (!)\n");
+        puts("Data Not Found (!)\n");
         system("pause");
     }else{
-        printf("Data Deleted Successfully\n");
+        puts("Data Deleted Successfully\n");
         system("pause");
     }
     return;
@@ -633,13 +569,7 @@ void delete_node(){
 void modify_data(){
     FILE *fp = fopen(PATH,"r");
     if(fp==NULL || root == NULL){
-        printf("\n\n\n");
-        printf("                =====================================================================\n");
-        printf("                ||                                                                 ||\n");
-        printf("                || Import the data from existing file first or input some new data ||\n");
-        printf("                ||                                                                 ||\n");
-        printf("                =====================================================================\n");
-        printf("\n\n\n");
+        puts("\n\n\n                =====================================================================\n                ||                                                                 ||\n                || Import the data from existing file first or input some new data ||\n                ||                                                                 ||\n                =====================================================================\n\n\n\n");
         system("pause");
         return;
     }
@@ -653,31 +583,13 @@ void modify_data(){
         print();
         switch(ch){
             case 1:
-                printf("===========================================\n");
-                printf("|       What Detail you want to use?      |\n");
-                printf("===========================================\n");
-                printf("| > NIM --> (Uses NIM to Search)        < |\n");
-                printf("|   Name --> (Uses Full Name to Search)   |\n");
-                printf("|   Exit --> (Back to Main Menu)          |\n");
-                printf("===========================================\n");
+                puts("===========================================\n|       What Detail you want to use?      |\n===========================================\n| > NIM --> (Uses NIM to Search)        < |\n|   Name --> (Uses Full Name to Search)   |\n|   Exit --> (Back to Main Menu)          |\n===========================================\n");
                 break;
             case 2:
-                printf("===========================================\n");
-                printf("|       What Detail you want to use?      |\n");
-                printf("===========================================\n");
-                printf("|   NIM --> (Uses NIM to Search)          |\n");
-                printf("| > Name --> (Uses Full Name to Search) < |\n");
-                printf("|   Exit --> (Back to Main Menu)          |\n");
-                printf("===========================================\n");
+                puts("===========================================\n|       What Detail you want to use?      |\n===========================================\n|   NIM --> (Uses NIM to Search)          |\n| > Name --> (Uses Full Name to Search) < |\n|   Exit --> (Back to Main Menu)          |\n===========================================\n");
                 break;
             case 3:
-                printf("===========================================\n");
-                printf("|       What Detail you want to use?      |\n");
-                printf("===========================================\n");
-                printf("|   NIM --> (Uses NIM to Search)          |\n");
-                printf("|   Name --> (Uses Full Name to Search)   |\n");
-                printf("| > Exit --> (Back to Main Menu)        < |\n");
-                printf("===========================================\n");
+                puts("===========================================\n|       What Detail you want to use?      |\n===========================================\n|   NIM --> (Uses NIM to Search)          |\n|   Name --> (Uses Full Name to Search)   |\n| > Exit --> (Back to Main Menu)        < |\n===========================================\n");
                 break;
         }
         int inp = getch();
@@ -974,31 +886,13 @@ void search(){
         print();
         switch(ch){
             case 1:
-                printf("===========================================\n");
-                printf("|       What Detail you want to use?      |\n");
-                printf("===========================================\n");
-                printf("| > NIM --> (Uses NIM to Search)        < |\n");
-                printf("|   Name --> (Uses Full Name to Search)   |\n");
-                printf("|   Exit --> (Back to Main Menu)          |\n");
-                printf("===========================================\n");
+            	puts("===========================================\n|       What Detail you want to use?      |\n===========================================\n| > NIM --> (Uses NIM to Search)        < |\n|   Name --> (Uses Full Name to Search)   |\n|   Exit --> (Back to Main Menu)          |\n===========================================\n");
                 break;
             case 2:
-                printf("===========================================\n");
-                printf("|       What Detail you want to use?      |\n");
-                printf("===========================================\n");
-                printf("|   NIM --> (Uses NIM to Search)          |\n");
-                printf("| > Name --> (Uses Full Name to Search) < |\n");
-                printf("|   Exit --> (Back to Main Menu)          |\n");
-                printf("===========================================\n");
+                puts("===========================================\n|       What Detail you want to use?      |\n===========================================\n|   NIM --> (Uses NIM to Search)          |\n| > Name --> (Uses Full Name to Search) < |\n|   Exit --> (Back to Main Menu)          |\n===========================================\n");
                 break;
             case 3:
-                printf("===========================================\n");
-                printf("|       What Detail you want to use?      |\n");
-                printf("===========================================\n");
-                printf("|   NIM --> (Uses NIM to Search)          |\n");
-                printf("|   Name --> (Uses Full Name to Search)   |\n");
-                printf("| > Exit --> (Back to Main Menu)        < |\n");
-                printf("===========================================\n");
+                puts("===========================================\n|       What Detail you want to use?      |\n===========================================\n|   NIM --> (Uses NIM to Search)          |\n|   Name --> (Uses Full Name to Search)   |\n| > Exit --> (Back to Main Menu)        < |\n===========================================\n");
                 break;
         }
         int inp = getch();
@@ -1067,81 +961,27 @@ int main_menu(){
         {
         case 1:
             system("cls");
-            printf("===========================================================================\n");
-            printf("|                       STUDENT DATA CENTER                               |\n");
-            printf("===========================================================================\n");
-            printf("| > 1. Input New Data --> (Will be saved in data.txt for following use) < |\n");
-            printf("|   2. Print Data  --> (Displays the whole data in form of a table)       |\n");
-            printf("|   3. Delete Node --> (Deletes Node Permanently)                         |\n");
-            printf("|   4. Modify Existing Data --> (Change data's details and Save it)       |\n");
-            printf("|   5. Search --> (Display a single data that matches the Input)          |\n");
-            printf("|   6. Exit --> (Exits The Program)                                       |\n");
-            printf("===========================================================================\n");
+            puts("===========================================================================\n|                       STUDENT DATA CENTER                               |\n===========================================================================\n| > 1. Input New Data --> (Will be saved in data.txt for following use) < |\n|   2. Print Data  --> (Displays the whole data in form of a table)       |\n|   3. Delete Node --> (Deletes Node Permanently)                         |\n|   4. Modify Existing Data --> (Change data's details and Save it)       |\n|   5. Search --> (Display a single data that matches the Input)          |\n|   6. Exit --> (Exits The Program)                                       |\n===========================================================================\n");
             break;
         case 2:
             system("cls");
-            printf("===========================================================================\n");
-            printf("|                       STUDENT DATA CENTER                               |\n");
-            printf("===========================================================================\n");
-            printf("|   1. Input New Data --> (Will be saved in data.txt for following use)   |\n");
-            printf("| > 2. Print Data  --> (Displays the whole data in form of a table)     < |\n");
-            printf("|   3. Delete Node --> (Deletes Node Permanently)                         |\n");
-            printf("|   4. Modify Existing Data --> (Change data's details and Save it)       |\n");
-            printf("|   5. Search --> (Display a single data that matches the Input)          |\n");
-            printf("|   6. Exit --> (Exits The Program)                                       |\n");
-            printf("===========================================================================\n");
+            puts("===========================================================================\n|                       STUDENT DATA CENTER                               |\n===========================================================================\n|   1. Input New Data --> (Will be saved in data.txt for following use)   |\n| > 2. Print Data  --> (Displays the whole data in form of a table)     < |\n|   3. Delete Node --> (Deletes Node Permanently)                         |\n|   4. Modify Existing Data --> (Change data's details and Save it)       |\n|   5. Search --> (Display a single data that matches the Input)          |\n|   6. Exit --> (Exits The Program)                                       |\n===========================================================================\n");
             break;
         case 3:
             system("cls");
-            printf("===========================================================================\n");
-            printf("|                       STUDENT DATA CENTER                               |\n");
-            printf("===========================================================================\n");
-            printf("|   1. Input New Data --> (Will be saved in data.txt for following use)   |\n");
-            printf("|   2. Print Data  --> (Displays the whole data in form of a table)       |\n");
-            printf("| > 3. Delete Node --> (Deletes Node Permanently)                       < |\n");
-            printf("|   4. Modify Existing Data --> (Change data's details and Save it)       |\n");
-            printf("|   5. Search --> (Display a single data that matches the Input)          |\n");
-            printf("|   6. Exit --> (Exits The Program)                                       |\n");
-            printf("===========================================================================\n");
+            puts("===========================================================================\n|                       STUDENT DATA CENTER                               |\n===========================================================================\n|   1. Input New Data --> (Will be saved in data.txt for following use)   |\n|   2. Print Data  --> (Displays the whole data in form of a table)       |\n| > 3. Delete Node --> (Deletes Node Permanently)                       < |\n|   4. Modify Existing Data --> (Change data's details and Save it)       |\n|   5. Search --> (Display a single data that matches the Input)          |\n|   6. Exit --> (Exits The Program)                                       |\n===========================================================================\n");
             break;
         case 4:
             system("cls");
-            printf("===========================================================================\n");
-            printf("|                       STUDENT DATA CENTER                               |\n");
-            printf("===========================================================================\n");
-            printf("|   1. Input New Data --> (Will be saved in data.txt for following use)   |\n");
-            printf("|   2. Print Data  --> (Displays the whole data in form of a table)       |\n");
-            printf("|   3. Delete Node --> (Deletes Node Permanently)                         |\n");
-            printf("| > 4. Modify Existing Data --> (Change data's details and Save it)     < |\n");
-            printf("|   5. Search --> (Display a single data that matches the Input)          |\n");
-            printf("|   6. Exit --> (Exits The Program)                                       |\n");
-            printf("===========================================================================\n");
+            puts("===========================================================================\n|                       STUDENT DATA CENTER                               |\n===========================================================================\n|   1. Input New Data --> (Will be saved in data.txt for following use)   |\n|   2. Print Data  --> (Displays the whole data in form of a table)       |\n|   3. Delete Node --> (Deletes Node Permanently)                         |\n| > 4. Modify Existing Data --> (Change data's details and Save it)     < |\n|   5. Search --> (Display a single data that matches the Input)          |\n|   6. Exit --> (Exits The Program)                                       |\n===========================================================================\n");
             break;
         case 5:
             system("cls");
-            printf("===========================================================================\n");
-            printf("|                       STUDENT DATA CENTER                               |\n");
-            printf("===========================================================================\n");
-            printf("|   1. Input New Data --> (Will be saved in data.txt for following use)   |\n");
-            printf("|   2. Print Data  --> (Displays the whole data in form of a table)       |\n");
-            printf("|   3. Delete Node --> (Deletes Node Permanently)                         |\n");
-            printf("|   4. Modify Existing Data --> (Change data's details and Save it)       |\n");
-            printf("| > 5. Search --> (Display a single data that matches the Input)        < |\n");
-            printf("|   6. Exit --> (Exits The Program)                                       |\n");
-            printf("===========================================================================\n");
+            puts("===========================================================================\n|                       STUDENT DATA CENTER                               |\n===========================================================================\n|   1. Input New Data --> (Will be saved in data.txt for following use)   |\n|   2. Print Data  --> (Displays the whole data in form of a table)       |\n|   3. Delete Node --> (Deletes Node Permanently)                         |\n|   4. Modify Existing Data --> (Change data's details and Save it)       |\n| > 5. Search --> (Display a single data that matches the Input)        < |\n|   6. Exit --> (Exits The Program)                                       |\n===========================================================================\n");
             break;
         case 6:
             system("cls");
-            printf("===========================================================================\n");
-            printf("|                       STUDENT DATA CENTER                               |\n");
-            printf("===========================================================================\n");
-            printf("|   1. Input New Data --> (Will be saved in data.txt for following use)   |\n");
-            printf("|   2. Print Data  --> (Displays the whole data in form of a table)       |\n");
-            printf("|   3. Delete Node --> (Deletes Node Permanently)                         |\n");
-            printf("|   4. Modify Existing Data --> (Change data's details and Save it)       |\n");
-            printf("|   5. Search --> (Display a single data that matches the Input)          |\n");
-            printf("| > 6. Exit --> (Exits The Program)                                     < |\n");
-            printf("===========================================================================\n");
+            puts("===========================================================================\n|                       STUDENT DATA CENTER                               |\n===========================================================================\n|   1. Input New Data --> (Will be saved in data.txt for following use)   |\n|   2. Print Data  --> (Displays the whole data in form of a table)       |\n|   3. Delete Node --> (Deletes Node Permanently)                         |\n|   4. Modify Existing Data --> (Change data's details and Save it)       |\n|   5. Search --> (Display a single data that matches the Input)          |\n| > 6. Exit --> (Exits The Program)                                     < |\n===========================================================================\n");
             break;
         }
         int inp = getch();
@@ -1161,86 +1001,48 @@ int main_menu(){
 
 int main(){
     printf("\033[30m"); printf("\033[47m"); system("cls"); // set background color to white and text color to black
-    printf("\n\n\n\n");
-    printf("                ===============================================================================\n");
-    printf("                ||                                                                           ||\n");
-    printf("                ||                            Press ANY Key To Start!                        ||\n");
-    printf("                ||                                                                           ||\n");
-    printf("                ===============================================================================\n");
-    printf("\n\n\n\n");
+    puts("\n\n\n\n                ===============================================================================\n                ||                                                                           ||\n                ||                            Press ANY Key To Start!                        ||\n                ||                                                                           ||\n                ===============================================================================\n\n\n\n\n");
     int t=getch();
     system("cls");
     int i=0;
     while(i<5){
-        printf("\n\n\n");
-        printf("                =============================================================================\n");
-        printf("                ||                                                                         ||\n");
-        printf("                || This Program Uses Keyboard Only to Navigate Through All The Features !  ||\n");
-        printf("                ||                                                                         ||\n");
-        printf("                =============================================================================\n");
-        printf("\n\n\n");
+    puts("\n\n\n\n                ===============================================================================\n                ||                                                                           ||\n                ||   This Program Uses Keyboard Only to Navigate Through All The Features !  ||\n                ||                                                                           ||\n                ===============================================================================\n\n\n\n\n");
         if(i==0){
-            printf("                -----------------------------------------------------------------------------\n");
-            printf("                |                                                                           |\n");
-            printf("                -----------------------------------------------------------------------------\n");
-        }
+            puts("                -----------------------------------------------------------------------------\n                |                                                                           |\n                -----------------------------------------------------------------------------\n");
+            }
         else if(i==1){
-            printf("                -----------------------------------------------------------------------------\n");
-            printf("                |+++++++++++++++++++++                                                      |\n");
-            printf("                -----------------------------------------------------------------------------\n");
-        }
+            puts("                -----------------------------------------------------------------------------\n                |+++++++++++++++++++++                                                      |\n                -----------------------------------------------------------------------------\n");
+            }
         else if(i==2){
-            printf("                -----------------------------------------------------------------------------\n");
-            printf("                |++++++++++++++++++++++++++++++++++++                                       |\n");
-            printf("                -----------------------------------------------------------------------------\n");
-        }
+            puts("                -----------------------------------------------------------------------------\n                |++++++++++++++++++++++++++++++++++++                                       |\n                -----------------------------------------------------------------------------\n");
+            }
         else if(i==3){
-            printf("                -----------------------------------------------------------------------------\n");
-            printf("                |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++               |\n");
-            printf("                -----------------------------------------------------------------------------\n");
-        }
+            puts("                -----------------------------------------------------------------------------\n                |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++               |\n                -----------------------------------------------------------------------------\n\n");
+            }
         else if(i==4){
-            printf("                -----------------------------------------------------------------------------\n");
-            printf("                |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|\n");
-            printf("                -----------------------------------------------------------------------------\n");
-        }
+            puts("                -----------------------------------------------------------------------------\n                |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|\n                -----------------------------------------------------------------------------\n");
+            }
         sleep(1);
         i++;
         system("cls");
     }
     i=0;
     while(i<5){
-        printf("\n\n\n");
-        printf("                =============================================================================\n");
-        printf("                ||                                                                         ||\n");
-        printf("                ||       Use Your Arrow Keys or WASD to Navigate Through the Program !     ||\n");
-        printf("                ||                                                                         ||\n");
-        printf("                =============================================================================\n");
-        printf("\n\n\n");
+    	puts("\n\n\n                =============================================================================\n                ||                                                                         ||\n                ||       Use Your Arrow Keys or WASD to Navigate Through the Program !     ||\n                ||                                                                         ||\n                =============================================================================\n\n\n\n");
         if(i==0){
-            printf("                -----------------------------------------------------------------------------\n");
-            printf("                |                                                                           |\n");
-            printf("                -----------------------------------------------------------------------------\n");
+            puts("                -----------------------------------------------------------------------------\n                |                                                                           |\n                -----------------------------------------------------------------------------\n");
         }
         else if(i==1){
-            printf("                -----------------------------------------------------------------------------\n");
-            printf("                |+++++++++++++++++++++                                                      |\n");
-            printf("                -----------------------------------------------------------------------------\n");
+            puts("                -----------------------------------------------------------------------------\n                |+++++++++++++++++++++                                                      |\n                -----------------------------------------------------------------------------\n");
         }
         else if(i==2){
-            printf("                -----------------------------------------------------------------------------\n");
-            printf("                |++++++++++++++++++++++++++++++++++++                                       |\n");
-            printf("                -----------------------------------------------------------------------------\n");
+            puts("                -----------------------------------------------------------------------------\n                |++++++++++++++++++++++++++++++++++++                                       |\n                -----------------------------------------------------------------------------\n");
         }
         else if(i==3){
-            printf("                -----------------------------------------------------------------------------\n");
-            printf("                |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++               |\n");
-            printf("                -----------------------------------------------------------------------------\n");
+            puts("                -----------------------------------------------------------------------------\n                |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++               |\n                -----------------------------------------------------------------------------\n");
         }
         else if(i==4){
-            printf("                -----------------------------------------------------------------------------\n");
-            printf("                |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|\n");
-            printf("                -----------------------------------------------------------------------------\n");
+            puts("                -----------------------------------------------------------------------------\n                |+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|\n                -----------------------------------------------------------------------------\n");
         }
         sleep(1);
         i++;
@@ -1251,26 +1053,10 @@ int main(){
         system("cls");
         switch(ch){
             case 1:
-                printf("\n\n\n");
-                printf("                ==============================================\n");
-                printf("                || Do you want to import the previous data? ||\n");
-                printf("                || If you don't have the file, choose NO    ||\n");
-                printf("                ==============================================\n");
-                printf("                || > YES <                                  ||\n");
-                printf("                ||   NO                                     ||\n");
-                printf("                ==============================================\n");
-                printf("\n\n\n");
+            	puts("\n\n\n                ==============================================\n                || Do you want to import the previous data? ||\n                || If you don't have the file, choose NO    ||\n                ==============================================\n                || > YES <                                  ||\n                ||   NO                                     ||\n                ==============================================\n\n\n\n");
                 break;
             case 2:
-                printf("\n\n\n");
-                printf("                ==============================================\n");
-                printf("                || Do you want to import the previous data? ||\n");
-                printf("                || If you don't have the file, choose NO    ||\n");
-                printf("                ==============================================\n");
-                printf("                ||   YES                                    ||\n");
-                printf("                || > NO  <                                  ||\n");
-                printf("                ==============================================\n");
-                printf("\n\n\n");
+                puts("\n\n\n                ==============================================\n                || Do you want to import the previous data? ||\n                || If you don't have the file, choose NO    ||\n                ==============================================\n                ||   YES                                    ||\n                || > NO  <                                  ||\n                ==============================================\n\n\n\n");
                 break;
         }
         int inp = getch();
@@ -1316,4 +1102,3 @@ int main(){
     }
     return 0;
 }
-
